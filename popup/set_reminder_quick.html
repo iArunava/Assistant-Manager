@@ -1,0 +1,235 @@
+<html>
+  <head>
+    <title> Set Reminder Quick </title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="Assistant Reminder Quick Set">
+    <meta name="keywords" content="arunava, reminder">
+    <meta name="author" content="Arunava Chakraborty">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+    <!-- Bootstrap 4 CSS link -->
+  	<link rel="stylesheet" href="../dependencies/bootstrap.min.css">
+
+  	<!-- Bootstrap 4 JS link -->
+  	<script src="../dependencies/jquery.min.js"></script>
+  	<script src="../dependencies/popper.min.js"></script>
+    <script src="../dependencies/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+    <div class="container-fluid">
+
+      <div class="margin--top-10"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <span> Assistant Reminder </span>
+          <button type="button" class="btn btn-outline-primary btn-sm float-right" href="#"> View all </button>
+        </div>
+      </div>
+
+      <div class="margin--top-10"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <textarea id="id--the-reminder" rows=5 cols=40></textarea>
+        </div>
+      </div>
+
+      <div class="margin--top-10"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <span> Remind me in: </span>
+          <form>
+
+            <div class="form-group">
+              <label for="id--date-selector-quick"> Pick a Date </label>
+                <input id="id--date" type="date">
+            </div>
+
+            <div class="form-group float-left">
+              <label for="id--hour-selector-quick"> Hours </label>
+              <select class="form-control float-left" id="id--hour-selector-quick">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+              </select>
+            </div>
+
+            <div class="form-group float-left">
+              <label for="id--min-selector-quick"> Minutes </label>
+              <select class="form-control float-left" id="id--min-selector-quick">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
+                <option>32</option>
+                <option>33</option>
+                <option>34</option>
+                <option>35</option>
+                <option>36</option>
+                <option>37</option>
+                <option>38</option>
+                <option>39</option>
+                <option>40</option>
+                <option>41</option>
+                <option>42</option>
+                <option>43</option>
+                <option>44</option>
+                <option>45</option>
+                <option>46</option>
+                <option>47</option>
+                <option>48</option>
+                <option>49</option>
+                <option>50</option>
+                <option>51</option>
+                <option>52</option>
+                <option>53</option>
+                <option>54</option>
+                <option>55</option>
+                <option>56</option>
+                <option>57</option>
+                <option>58</option>
+                <option>59</option>
+              </select>
+            </div>
+
+            <div class="form-group float-left">
+              <label for="id--sec-selector-quick"> Seconds </label>
+              <select class="form-control float-left" id="id--sec-selector-quick">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
+                <option>32</option>
+                <option>33</option>
+                <option>34</option>
+                <option>35</option>
+                <option>36</option>
+                <option>37</option>
+                <option>38</option>
+                <option>39</option>
+                <option>40</option>
+                <option>41</option>
+                <option>42</option>
+                <option>43</option>
+                <option>44</option>
+                <option>45</option>
+                <option>46</option>
+                <option>47</option>
+                <option>48</option>
+                <option>49</option>
+                <option>50</option>
+                <option>51</option>
+                <option>52</option>
+                <option>53</option>
+                <option>54</option>
+                <option>55</option>
+                <option>56</option>
+                <option>57</option>
+                <option>58</option>
+                <option>59</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="margin--top-10"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <button type="button" id="id--cancel-btn" class="btn btn-secondary btn-sm float-left" href="#"> Cancel </button>
+          <button type="button" id="id--save-btn" class="btn btn-success btn-sm float-right" href="#"> Save </button>
+        </div>
+      </div>
+
+        <div class="margin--top-10"></div>
+
+    </div>
+    <script src="./script.js"></script>
+  </body>
+
+</html>
