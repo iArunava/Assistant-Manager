@@ -14,9 +14,12 @@ function createReminderTemplate(reminderObj) {
   var reminder = reminderObj.rmd;
 
   let template = `
-    <div>
-      <p> ${reminder} </p>
+    <div class="margin--top-10">
+    <div class="class--rmd-box">
+      <p class="class--reminder-name"> ${reminder} </p>
+      <p> Upcoming on: ${reminderObj.date} at: ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </p>
     </div>
+    <div class="margin--top-10">
   `;
 
   return template;
