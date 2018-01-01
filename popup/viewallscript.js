@@ -13,7 +13,23 @@ function onRemindersFetched(obj) {
 
 
     $("#id--snooze-" + tKey).click((event) => {
-      console.log("Snoozed" + tKey);
+      let gettingItem = browser.storage.local.get(tKey);
+      gettingItem.then((item) => {
+        item[tKey].uepoch = parseInt(item[tKey].uepoch)+10000;
+        let updating = browser.storage.local.set({[tKey] : item[tKey]});
+        updating.then(()=>{
+          let settingAlarm = browser.runtime.getBackgroundPage();
+          settingAlarm.then((page) => {
+            page.setAlarm(tKey);
+            $("#id--snooze-"+tKey).prop("disabled", true);
+            $("#id--snooze-"+tKey).html("Snoozed!");
+            setTimeout(() => {
+              $("#id--snooze-"+tKey).html("Snooze");
+              $("#id--snooze-"+tKey).prop("disabled", false);
+            }, 1000);
+          }, onError);
+        }, onError);
+      });
     });
 
     $("#id--delete-rmd-" + tKey).click(()=> {
@@ -22,7 +38,6 @@ function onRemindersFetched(obj) {
         $("#id--reminder-" + tKey).remove();
       }, onError);
     });
-
   });
 }
 
