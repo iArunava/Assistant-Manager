@@ -13,6 +13,9 @@ function setAlarm (key) {
 browser.alarms.onAlarm.addListener((alarm) => {
   let gettingItem = browser.storage.local.get(alarm.name);
   gettingItem.then((item) => {
+    item[alarm.name].upcoming = "false";
+    alert(item);
+    browser.storage.local.set({[alarm.name] : item[alarm.name]});
     browser.notifications.create({
       "type": "basic",
       "title": "Assitant Reminder Says: ",

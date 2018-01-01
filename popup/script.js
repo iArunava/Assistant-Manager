@@ -3,12 +3,6 @@ var tDate = new Date();
 
 $(document).ready(function() {
 
-  /*var clearAlarms = browser.alarms.clearAll();
-  clearAlarms.then(onAllAlarmsCleared);*/
-
-  /*var clearStorage = browser.storage.local.clear();
-  clearStorage.then(onAllAlarmsCleared, onError);*/
-
   let month = ("0" + (tDate.getMonth() + 1)).slice(-2);
   let day = ("0" + tDate.getDate()).slice(-2);
 
@@ -54,6 +48,8 @@ $("#id--save-btn").click(function() {
                 min:    setMinutes,
                 secs:   setSeconds,
                 date:   setDate,
+                key:    key, //TODO: Don't store the key the itself, not a good design
+                upcoming: "true",
                 uepoch: when}
       });
 
@@ -67,7 +63,7 @@ $("#id--save-btn").click(function() {
           setTimeout(() => {
             $("#id--save-btn").html("Save");
             $("#id--save-btn").prop("disabled", false);
-          }, 3000);
+          }, 2000);
         }, onError);
       }, onError);
 
@@ -90,10 +86,6 @@ function onGot(item) {
 
 function onError(error) {
   console.log(`Error: ${error}`);
-}
-
-function onAllAlarmsCleared(wasCleared) {
-  console.log(wasCleared);
 }
 
 function onSave () {
