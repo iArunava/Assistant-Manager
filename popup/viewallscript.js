@@ -11,22 +11,21 @@ function onRemindersFetched(obj) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
     } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
 
-
-    $("#id--snooze-" + tKey).click((event) => {
+    $("#id--snooze-" + tKey).click(() => {
+      $("#id--snooze-"+tKey).prop("disabled", true);
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
-        item[tKey].uepoch = parseInt(item[tKey].uepoch)+10000;
+        item[tKey].uepoch = (Math.round((new Date()).getTime()))+10000;
         let updating = browser.storage.local.set({[tKey] : item[tKey]});
         updating.then(()=>{
           let settingAlarm = browser.runtime.getBackgroundPage();
           settingAlarm.then((page) => {
             page.setAlarm(tKey);
-            $("#id--snooze-"+tKey).prop("disabled", true);
             $("#id--snooze-"+tKey).html("Snoozed!");
             setTimeout(() => {
               $("#id--snooze-"+tKey).html("Snooze");
               $("#id--snooze-"+tKey).prop("disabled", false);
-            }, 1000);
+            }, 500);
           }, onError);
         }, onError);
       });
@@ -34,6 +33,7 @@ function onRemindersFetched(obj) {
 
     $("#id--delete-rmd-" + tKey).click(()=> {
       let removeStorage = browser.storage.local.remove(tKey);
+      browser.alarms.clear(tKey);
       removeStorage.then(() => {
         $("#id--reminder-" + tKey).remove();
       }, onError);
@@ -44,8 +44,6 @@ function onRemindersFetched(obj) {
 function createReminderTemplate(reminderObj) {
   var reminder = reminderObj.rmd;
   var tKey = reminderObj.key;
-
-  console.log(tKey);
 
   let template = `
     <div id="id--reminder-${tKey}" class="class--rmd-box">

@@ -1,13 +1,20 @@
 function setAlarm (key) {
   let gettingItem = browser.storage.local.get(key);
   gettingItem.then((item) => {
-    item[key].upcoming = "true";
-    browser.storage.local.set({[key] : item[key]});
-    let w = parseInt(item[key].uepoch);
-    let reminder = item[key].rmd;
-
-    browser.alarms.create(key, {
-     when: w
+    if (item[key].upcoming == "false") {
+      item[key].upcoming = "true";
+      browser.storage.local.set({[key] : item[key]});
+      clearAlarm.then((wasCleared) => {
+        console.log(wasCleared);
+      });
+    }
+    let clearAlarm = browser.alarms.clear(key);
+    clearAlarm.then(() => {
+      let w = parseInt(item[key].uepoch);
+      let reminder = item[key].rmd;
+      browser.alarms.create(key, {
+       when: w
+      });
     });
   });
 }
@@ -26,10 +33,11 @@ browser.alarms.onAlarm.addListener((alarm) => {
   });
 });
 
-browser.storage.onChanged.addListener ((changes, area)=>{
+/*browser.storage.onChanged.addListener ((changes, area)=>{
+  console.log("asdaadwwwwwwwww");
   console.log(changes);
   console.log(area);
-});
+});*/
 
 function onError (error) {
   console.log(`${error}`);
