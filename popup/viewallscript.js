@@ -11,11 +11,11 @@ function onRemindersFetched(obj) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
     } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
 
-    $("#id--snooze-" + tKey).click(() => {
+    $(document).on('click', '#id--snooze-'+tKey, () => {
       $("#id--snooze-"+tKey).prop("disabled", true);
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
-        item[tKey].uepoch = (Math.round((new Date()).getTime()))+10000;
+        item[tKey].uepoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+10000;
         let updating = browser.storage.local.set({[tKey] : item[tKey]});
         updating.then(()=>{
           let settingAlarm = browser.runtime.getBackgroundPage();
@@ -31,10 +31,13 @@ function onRemindersFetched(obj) {
       });
     });
 
-    $("#id--delete-rmd-" + tKey).click(()=> {
+    $(document).on('click', '#id--delete-rmd-'+tKey, ()=> {
       let removeStorage = browser.storage.local.remove(tKey);
-      browser.alarms.clear(tKey);
       removeStorage.then(() => {
+        console.log(tKey);
+        //TODO: Clearing Alarms are returing false and no further firing of alarms
+        /*let clearThisAlarm = browser.alarms.clear(tKey);
+        clearThisAlarm.then(onAllAlarmsCleared, onError);*/
         $("#id--reminder-" + tKey).remove();
       }, onError);
     });
@@ -62,13 +65,20 @@ function createReminderTemplate(reminderObj) {
 }
 
 $("#id--delete-all").click(() => {
-  var clearAlarms = browser.alarms.clearAll();
-  clearAlarms.then(onAllAlarmsCleared);
+  $("#id--delete-all").prop('disabled', true);
+  //TODO: Clearing Alarms are returing false and no further firing of alarms
+  /*var clearAlarms = browser.alarms.clearAll();
+  clearAlarms.then(onAllAlarmsCleared);*/
 
   var clearStorage = browser.storage.local.clear();
   clearStorage.then(()=> {
     $("#div--upcoming-reminders").empty();
     $("#div--ongoing-reminders").empty();
+    $("#id--delete-all").html("Removed!");
+    setTimeout(() => {
+      $("#id--delete-all").html("Remove all Reminders");
+      $("#id--delete-all").prop('disabled', false);
+    }, 500)
   }, onError);
 });
 

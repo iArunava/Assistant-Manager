@@ -24,10 +24,12 @@ $("#id--save-btn").click(function() {
     let setMinutes = $("#id--min-selector-quick").val();
     let setSeconds = $("#id--sec-selector-quick").val();
 
+    //alert(setHours + " || " + setMinutes + " || " + setSeconds);
+    console.log(dateIsInFuture(setDate, setHours, setMinutes, setSeconds));
 
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
-        setSeconds) == true) {
+        setSeconds) === true) {
       let key = reminder+setDate+setHours+setMinutes+setSeconds;
 
       let when = Math.round((new Date(setDate.slice(0, 4),
@@ -80,21 +82,16 @@ $("#id--cancel-btn").click(function() {
   window.close();
 });
 
-function onGot(item) {
-  console.log(item);
-}
-
-function onError(error) {
-  console.log(`Error: ${error}`);
-}
-
-function onSave () {
-}
-
 function dateIsInFuture (date, hrs, mins, sec) {
   let cDate = new Date();
-  let tempDate = cDate.getFullYear() + "-" + (cDate.getMonth()+1) + "-" +
-                 cDate.getDate();
+
+  let tempMonth = (cDate.getMonth()+1).toString();
+  if (tempMonth.length === 1) tempMonth = '0' + tempMonth.toString();
+
+  let tempDt = (cDate.getDate()).toString();
+  if (tempDt.length === 1) tempDt = '0' + tempDt.toString();
+
+  let tempDate = cDate.getFullYear() + "-" + tempMonth + "-" + tempDt;
   let tempHours = cDate.getHours();
   let tempMins = cDate.getMinutes();
   let tempSec = cDate.getSeconds();
@@ -113,4 +110,15 @@ function dateIsInFuture (date, hrs, mins, sec) {
     }
   }
   return false;
+}
+
+function onGot(item) {
+  console.log(item);
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
+}
+
+function onSave () {
 }

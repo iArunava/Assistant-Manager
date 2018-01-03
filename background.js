@@ -4,9 +4,6 @@ function setAlarm (key) {
     if (item[key].upcoming == "false") {
       item[key].upcoming = "true";
       browser.storage.local.set({[key] : item[key]});
-      clearAlarm.then((wasCleared) => {
-        console.log(wasCleared);
-      });
     }
     let clearAlarm = browser.alarms.clear(key);
     clearAlarm.then(() => {
@@ -21,7 +18,13 @@ function setAlarm (key) {
 
 browser.alarms.onAlarm.addListener((alarm) => {
   let gettingItem = browser.storage.local.get(alarm.name);
+
   gettingItem.then((item) => {
+    // TODO: Unable to clear alarms for some reason, as clearing them is leading to
+    // no firing of upcoming alarms, so handling this is for handling alarms the
+    // reminder for which has been cleared from the storage.
+    if (item[alarm.name] == undefined) return;
+
     item[alarm.name].upcoming = "false";
     browser.storage.local.set({[alarm.name] : item[alarm.name]});
     browser.notifications.create({
