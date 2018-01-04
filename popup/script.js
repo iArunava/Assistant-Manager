@@ -12,9 +12,20 @@ $(document).ready(function() {
   $("#id--date").attr("min", tDate.getFullYear().toString() + "-" +
                               (month) + "-" + (day));
 
+   let sltHours = $("select[name='name--select-hours']");
+   let sltMins = $("select[name='name--select-mins']");
+   let sltSecs = $("select[name='name--select-secs']");
+   for (let i = 0; i < 60; ++i) {
+     let tempStr = "<option> " + i.toString() + " </option>";
+     if (i < 24) { $(tempStr).appendTo(sltHours); }
+     $(tempStr).appendTo(sltMins);
+     $(tempStr).appendTo(sltSecs);
+   }
+
    $("#id--hour-selector-quick").val(tDate.getHours());
    $("#id--min-selector-quick").val(tDate.getMinutes());
    $("#id--sec-selector-quick").val(tDate.getSeconds());
+
 });
 
 $("#id--save-btn").click(function() {
