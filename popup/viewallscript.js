@@ -3,30 +3,32 @@ $(document).ready(function () {
   gettingItem.then(onRemindersFetched, onError);
 });
 
-function onRemindersFetched(obj) {
+function onRemindersFetched(obj, attachEvents = true) {
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
-    if (reminderObj.upcoming == "true") {
-      $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
-    } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
+    appendReminders(reminderObj);
+
+    if (!attachEvents) return;
 
     $(document).on('click', '#id--snooze-'+tKey, () => {
       $("#id--snooze-"+tKey).prop("disabled", true);
+      $("#id--reminder-" + tKey).remove();
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
-        item[tKey].uepoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+10000;
-        let updating = browser.storage.local.set({[tKey] : item[tKey]});
-        updating.then(()=>{
-          let settingAlarm = browser.runtime.getBackgroundPage();
-          settingAlarm.then((page) => {
-            page.setAlarm(tKey);
-            $("#id--snooze-"+tKey).html("Snoozed!");
-            setTimeout(() => {
-              $("#id--snooze-"+tKey).html("Snooze");
-              $("#id--snooze-"+tKey).prop("disabled", false);
-            }, 500);
-          }, onError);
+        let nEpoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+10000;
+        let getBgdPg = browser.runtime.getBackgroundPage();
+        getBgdPg.then((page) => {
+          item[tKey].uepoch = nEpoch;
+          let settingAlarm = page.setAlarm(item[tKey], tKey);
+          item[tKey].upcoming = "true";
+          appendReminders (item[tKey], true)
+          //onRemindersFetched(item, false);
+          $("#id--snooze-"+tKey).html("Snoozed!");
+          setTimeout(() => {
+            $("#id--snooze-"+tKey).html("Snooze");
+            $("#id--snooze-"+tKey).prop("disabled", false);
+          }, 500);
         }, onError);
       });
     });
@@ -34,14 +36,20 @@ function onRemindersFetched(obj) {
     $(document).on('click', '#id--delete-rmd-'+tKey, ()=> {
       let removeStorage = browser.storage.local.remove(tKey);
       removeStorage.then(() => {
-        console.log(tKey);
-        //TODO: Clearing Alarms are returing false and no further firing of alarms
-        /*let clearThisAlarm = browser.alarms.clear(tKey);
-        clearThisAlarm.then(onAllAlarmsCleared, onError);*/
+        let getBgdPg = browser.runtime.getBackgroundPage();
+        getBgdPg.then ((page) => {
+          page.clearThisAlarm(tKey);
+        });
         $("#id--reminder-" + tKey).remove();
       }, onError);
     });
   });
+}
+
+function appendReminders (reminderObj, upcming = false) {
+    if (reminderObj.upcoming === "true" || upcming) {
+      $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
+    } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
 }
 
 function createReminderTemplate(reminderObj) {
@@ -66,25 +74,18 @@ function createReminderTemplate(reminderObj) {
 
 $("#id--delete-all").click(() => {
   $("#id--delete-all").prop('disabled', true);
-  //TODO: Clearing Alarms are returing false and no further firing of alarms
-  /*var clearAlarms = browser.alarms.clearAll();
-  clearAlarms.then(onAllAlarmsCleared);*/
-
-  var clearStorage = browser.storage.local.clear();
-  clearStorage.then(()=> {
+  let getBgdPg = browser.runtime.getBackgroundPage();
+  getBgdPg.then ((page) => {
+    page.deleteAll();
+    $("#id--delete-all").html("Removed!");
     $("#div--upcoming-reminders").empty();
     $("#div--ongoing-reminders").empty();
-    $("#id--delete-all").html("Removed!");
     setTimeout(() => {
       $("#id--delete-all").html("Remove all Reminders");
       $("#id--delete-all").prop('disabled', false);
     }, 500)
-  }, onError);
+  });
 });
-
-function onAllAlarmsCleared(wasCleared) {
-  console.log(wasCleared);
-}
 
 function onError(error) {
   console.log(error);

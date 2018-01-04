@@ -48,29 +48,24 @@ $("#id--save-btn").click(function() {
                                    setDate.slice(8, 10), setHours,
                                    setMinutes, setSeconds)).getTime());
 
-      /*console.log(setDate.slice(0, 4));
-      console.log(parseInt(setDate.slice(5, 7)) - 1);
-      console.log(setDate.slice(8, 10));
-      console.log(new Date(setDate.slice(0, 4),
-                                   parseInt(setDate.slice(5, 7))-1,
-                                   setDate.slice(8, 10), setHours,
-                                   setMinutes, setSeconds));*/
-      let setting = browser.storage.local.set({
-        [key]: {rmd:    reminder,
-                hrs:    setHours,
-                min:    setMinutes,
-                secs:   setSeconds,
-                date:   setDate,
-                key:    key, //TODO: Don't store the key the itself, not a good design
-                upcoming: "true",
-                uepoch: when}
-      });
+      let currItem = {
+        rmd:    reminder,
+        hrs:    setHours,
+        min:    setMinutes,
+        secs:   setSeconds,
+        date:   setDate,
+        key:    key, //TODO: Don't store the key the itself, not a good design
+        upcoming: "true",
+        uepoch: when
+      }
+
+      let setting = browser.storage.local.set({[key]: currItem});
 
       setting.then(() => {
         let settingAlarm = browser.runtime.getBackgroundPage();
         settingAlarm.then((page) => {
           let key = reminder+setDate+setHours+setMinutes+setSeconds;
-          page.setAlarm(key);
+          page.setAlarm(currItem, key);
           $("#id--save-btn").prop("disabled", true);
           $("#id--save-btn").html("Saved!");
           setTimeout(() => {
