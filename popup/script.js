@@ -35,9 +35,6 @@ $("#id--save-btn").click(function() {
     let setMinutes = $("#id--min-selector-quick").val();
     let setSeconds = $("#id--sec-selector-quick").val();
 
-    //alert(setHours + " || " + setMinutes + " || " + setSeconds);
-    console.log(dateIsInFuture(setDate, setHours, setMinutes, setSeconds));
-
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
         setSeconds) === true) {

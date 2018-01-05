@@ -47,6 +47,7 @@ function onRemindersFetched(obj, attachEvents = true) {
 }
 
 function appendReminders (reminderObj, upcming = false) {
+    console.log("from appendReminders");
     if (reminderObj.upcoming === "true" || upcming) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
     } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
@@ -57,14 +58,18 @@ function createReminderTemplate(reminderObj) {
   var tKey = reminderObj.key;
 
   let template = `
-    <div id="id--reminder-${tKey}" class="class--rmd-box">
+    <div id="id--reminder-${tKey}">
       <div class="margin--top-10">
-      <div class="float-right">
-        <button id="id--snooze-${tKey}" class="btn btn-outline-primary btn-sm"> Snooze </button>
-        <button id="id--delete-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Done </button>
+      <div class="class--rmd-box">
+        <div class="margin--top-10">
+        <div class="float-right">
+          <button id="id--snooze-${tKey}" class="btn btn-outline-primary btn-sm"> Snooze </button>
+          <button id="id--delete-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Done </button>
+        </div>
+        <p class="class--reminder-name"> ${reminder} </p>
+        <p> Upcoming on: ${reminderObj.date} at: ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </p>
+        <div class="margin--top-10">
       </div>
-      <p class="class--reminder-name"> ${reminder} </p>
-      <p> Upcoming on: ${reminderObj.date} at: ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </p>
       <div class="margin--top-10">
     </div>
   `;

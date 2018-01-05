@@ -37,6 +37,22 @@ browser.alarms.onAlarm.addListener((alarm) => {
   });
 });
 
+browser.storage.onChanged.addListener((changes, area) => {
+  let changedItems = Object.keys(changes);
+
+  console.log(changedItems);
+  for (let item of changedItems) {
+    //console.log(changes[item].oldValue);
+    //console.log(changes[item].newValue);
+    //console.log(document.getElementById("id--reminder-"+item));
+    if (changes[item].oldValue === undefined && changes[item].newValue !== undefined && document.getElementById("id--reminder-"+item) === null) {
+      //console.log("befoew");
+      appendReminders(changes[item].newValue);
+      //console.log("after");
+    }
+  }
+});
+
 function clearThisAlarm(key) {
   browser.alarms.clear(key);
 }
