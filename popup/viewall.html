@@ -25,6 +25,12 @@
 
       <div class="row">
         <div class="col-12">
+          <form class="float-right">
+            <div class="form-group">
+              <label for="id--snooze-mins"> Set Snooze time <small> in Minutes </small></label>
+              <select name="name--select-snooze-time" class="form-control" id="id--select-snooze-mins"></select>
+            </div>
+          </form>
           <p class="class--title"> All Reminders </p>
           <button id="id--delete-all" class="btn btn-sm btn-outline-danger"> Remove all reminders </button>
           <hr/>
@@ -36,6 +42,7 @@
       <div class="row">
         <div class="col-12">
           <p class="class--sub-title"> Ongoing Reminders </p>
+          <div id="id--no-ong-rmd" class="class--display-none"><p> No Ongoing Reminders</p></div>
           <div id="div--ongoing-reminders"></div>
         </div>
       </div>
@@ -47,6 +54,7 @@
       <div class="row">
         <div class="col-12">
           <p class="class--sub-title"> Upcoming Reminders </p>
+          <div id="id--no-upc-rmd" class="class--display-none"><p> No Upcoming Reminders</p></div>
           <div id="div--upcoming-reminders"></div>
         </div>
       </div>

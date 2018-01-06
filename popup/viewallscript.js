@@ -1,9 +1,23 @@
+var remInUp = false;
+var remInOn = false;
+
 $(document).ready(function () {
   let gettingItem = browser.storage.local.get();
+  remInUp = false;
+  remInOn = false;
   gettingItem.then(onRemindersFetched, onError);
+
+
+  let sltSnzMins = $("select[name='name--select-snooze-time']");
+  let minsAvl = [1, 2, 5, 10];
+  for (const snoozeMin in minsAvl) {
+    let temp = "<option> " + minsAvl[snoozeMin].toString() + " </option>";
+    $(temp).appendTo(sltSnzMins);
+  }
 });
 
 function onRemindersFetched(obj, attachEvents = true) {
+  console.log(obj);
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
@@ -16,14 +30,15 @@ function onRemindersFetched(obj, attachEvents = true) {
       $("#id--reminder-" + tKey).remove();
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
-        let nEpoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+10000;
+        let minSelected = $("#id--select-snooze-mins").find(":selected").text();
+        let nEpoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+(parseInt(minSelected)*60*1000);
+        console.log(nEpoch);
         let getBgdPg = browser.runtime.getBackgroundPage();
         getBgdPg.then((page) => {
           item[tKey].uepoch = nEpoch;
           let settingAlarm = page.setAlarm(item[tKey], tKey);
           item[tKey].upcoming = "true";
           appendReminders (item[tKey], true)
-          //onRemindersFetched(item, false);
           $("#id--snooze-"+tKey).html("Snoozed!");
           setTimeout(() => {
             $("#id--snooze-"+tKey).html("Snooze");
@@ -40,17 +55,53 @@ function onRemindersFetched(obj, attachEvents = true) {
         getBgdPg.then ((page) => {
           page.clearThisAlarm(tKey);
         });
+        let parentID = $("#id--reminder-"+tKey).parent().attr('id');
         $("#id--reminder-" + tKey).remove();
+        if ($("#"+parentID).children().length === 0) {
+          console.log($("#"+parentID).children());
+          console.log(parentID);
+          console.log(parentID == "div--ongoing-reminders");
+          if (parentID == "div--ongoing-reminders") {
+            $("#id--no-ong-rmd").removeClass("class--display-none");
+          }
+          if (parentID == "div--upcoming-reminders") {
+            $("#id--no-upc-rmd").removeClass("class--display-none");
+          }
+        }
       }, onError);
     });
   });
+  if (remInUp === false) {
+    $("#id--no-upc-rmd").removeClass("class--display-none");
+  }
+  if (remInOn === false) {
+    $("#id--no-ong-rmd").removeClass("class--display-none");
+  }
 }
 
 function appendReminders (reminderObj, upcming = false) {
     console.log("from appendReminders");
     if (reminderObj.upcoming === "true" || upcming) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
-    } else $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
+      console.log($("#id--no-upc-rmd").hasClass("class--display-none"));
+      if ($("#id--no-upc-rmd").hasClass("class--display-none") === false) {
+        $("#id--no-upc-rmd").addClass("class--display-none");
+      }
+      if ($("#div--ongoing-reminders").children().length == 0) {
+        $("#id--no-ong-rmd").removeClass("class--display-none");
+      }
+      remInUp = true;
+    } else {
+      $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
+      console.log($("#id--no-ong-rmd").hasClass("class--display-none"));
+      if ($("#id--no-ong-rmd").hasClass("class--display-none") === false) {
+        $("#id--no-ong-rmd").addClass("class--display-none");
+      }
+      if ($("#div--upcoming-reminders").children().length == 0) {
+        $("#id--no-upc-rmd").removeClass("class--display-none");
+      }
+      remInOn = true;
+    }
 }
 
 function createReminderTemplate(reminderObj) {
@@ -80,6 +131,8 @@ function createReminderTemplate(reminderObj) {
 $("#id--delete-all").click(() => {
   $("#id--delete-all").prop('disabled', true);
   let getBgdPg = browser.runtime.getBackgroundPage();
+  $("#id--no-upc-rmd").removeClass("class--display-none");
+  $("#id--no-ong-rmd").removeClass("class--display-none");
   getBgdPg.then ((page) => {
     page.deleteAll();
     $("#id--delete-all").html("Removed!");
