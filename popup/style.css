@@ -1,5 +1,60 @@
+/*
+Theme Color:
+Blue   -> #4286f4
+Green  -> #8BC34A | (139, 195, 74)
+L Green -> #9CCC65 | (156, 204, 101)
+Indigo -> #3F51B5
+*/
+
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('../fonts/Bellefair-Regular.ttf'); /* IE9 Compat Modes */
+  src: url('../fonts/Bellefair-Regular.ttf') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/Bellefair-Regular.ttf') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/Bellefair-Regular.ttf') format('woff'), /* Pretty Modern Browsers */
+       url('../fonts/Bellefair-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
+* {
+  font-family: 'MyWebFont', monospace;
+  font-size: 20px;
+}
+
+.class--theme-color {
+  color: #4286f4;
+  font-size: inherit;
+}
+
+.hr--title {
+    display: block;
+    border-color: rgb(53, 121, 232, 0.8);
+    border-width: 2px 0 0;
+    margin: 20px auto 30px;
+    border-radius: 5px;
+    width: 600px;
+    margin-bottom: 20px;
+}
+
+.hr--subtitle {
+    display: block;
+    border-color: rgb(66, 134, 244, 0.4);
+    border-width: 2px 0 0;
+    margin: 20px auto 30px;
+    border-radius: 5px;
+    width: 450px;
+    margin-bottom: 20px;
+}
+
 textarea {
   resize: none;
+}
+
+.class--just-center {
+  justify-content: center;
+}
+
+.class--text-center {
+  text-align: center;
 }
 
 .class--display-none {
@@ -15,18 +70,23 @@ textarea {
 }
 
 .class--title {
-  font-size: 24px;
+  font-size: 35px;
+  text-align: center;
 }
 
 .class--sub-title {
-  font-size: 20px;
+  font-size: 30px;
+  text-align: center;
 }
 
 .class--reminder-name {
-  color: blue;
-  font-size: 18px;
+  color: #3949AB;
+  font-size: 27px;
 }
 
 .class--rmd-box {
-  border: 1px solid green;
+  border: 1px solid #8BC34A;
+  border-radius: 5px;
+  padding: 5px 8px;
+  background-color: rgba(156, 204, 101, 0.2);
 }

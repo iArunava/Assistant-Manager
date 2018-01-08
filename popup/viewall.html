@@ -19,21 +19,26 @@
   </head>
 
   <body>
-    <div class="container-fluid">
+    <div class="container">
 
       <div class="margin--top-10"></div>
 
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 class--just-center">
+          <p class="class--title"> <span class="class--theme-color">A</span>ssistant Reminder </p>
+          <hr class="hr--title"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 class--just-center">
           <form class="float-right">
             <div class="form-group">
               <label for="id--snooze-mins"> Set Snooze time <small> in Minutes </small></label>
               <select name="name--select-snooze-time" class="form-control" id="id--select-snooze-mins"></select>
             </div>
           </form>
-          <p class="class--title"> All Reminders </p>
           <button id="id--delete-all" class="btn btn-sm btn-outline-danger"> Remove all reminders </button>
-          <hr/>
         </div>
       </div>
 
@@ -41,8 +46,9 @@
 
       <div class="row">
         <div class="col-12">
-          <p class="class--sub-title"> Ongoing Reminders </p>
-          <div id="id--no-ong-rmd" class="class--display-none"><p> No Ongoing Reminders</p></div>
+          <p class="class--sub-title"> <span class="class--theme-color">O</span>ngoing Reminders </p>
+          <hr class="hr--subtitle"/>
+          <div id="id--no-ong-rmd" class="class--display-none class--text-center"><p> No Ongoing Reminders</p></div>
           <div id="div--ongoing-reminders"></div>
         </div>
       </div>
@@ -53,12 +59,14 @@
 
       <div class="row">
         <div class="col-12">
-          <p class="class--sub-title"> Upcoming Reminders </p>
-          <div id="id--no-upc-rmd" class="class--display-none"><p> No Upcoming Reminders</p></div>
+          <p class="class--sub-title"> <span class="class--theme-color">U</span>pcoming Reminders </p>
+          <hr class="hr--subtitle"/>
+          <div id="id--no-upc-rmd" class="class--display-none class--text-center"><p> No Upcoming Reminders</p></div>
           <div id="div--upcoming-reminders"></div>
         </div>
       </div>
 
+      <div class="margin--top-20"></div>
     </div>
 
     <script src="./viewallscript.js"></script>

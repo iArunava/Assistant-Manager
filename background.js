@@ -19,12 +19,7 @@ browser.alarms.onAlarm.addListener((alarm) => {
   gettingItem.then((item) => {
     if (item[alarm.name] == undefined) return;
 
-    browser.notifications.create({
-      "type": "basic",
-      "title": "Assitant Reminder Says: ",
-      "message": item[alarm.name].rmd,
-      "iconUrl": "../icons/asst-reminder-32.png"
-    });
+    createNotification (item[alarm.name].rmd);
 
     item[alarm.name].upcoming = "false";
 
@@ -40,18 +35,42 @@ browser.alarms.onAlarm.addListener((alarm) => {
 browser.storage.onChanged.addListener((changes, area) => {
   let changedItems = Object.keys(changes);
 
-  console.log(changedItems);
+  //console.log(changedItems);
   for (let item of changedItems) {
     //console.log(changes[item].oldValue);
     //console.log(changes[item].newValue);
     //console.log(document.getElementById("id--reminder-"+item));
     if (changes[item].oldValue === undefined && changes[item].newValue !== undefined && document.getElementById("id--reminder-"+item) === null) {
       //console.log("befoew");
-      appendReminders(changes[item].newValue);
+      //console.log(changes[item]);
+      onRemindersFetched({[changes[item].newValue.key] : changes[item].newValue});
       //console.log("after");
     }
   }
 });
+
+browser.runtime.onStartup.addListener(() => {
+  let gettingItem = browser.storage.local.get();
+  gettingItem.then((obj) => {
+    let currEpoch = Math.round((new Date()).getTime());
+    Object.values(obj).forEach((reminderObj) => {
+      if (reminderObj.uepoch < currEpoch) {
+        createNotification (reminderObj.rmd);
+        reminderObj.upcoming = "false";
+        browser.storage.local.set({[reminderObj.key] : reminderObj});
+      }
+    });
+  }, onError);
+});
+
+function createNotification (reminder) {
+    browser.notifications.create({
+      "type": "basic",
+      "title": "Assitant Reminder Says: ",
+      "message": reminder,
+      "iconUrl": "../icons/asst-reminder-32.png"
+    });
+}
 
 function clearThisAlarm(key) {
   browser.alarms.clear(key);

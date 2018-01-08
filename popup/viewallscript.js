@@ -83,7 +83,6 @@ function appendReminders (reminderObj, upcming = false) {
     console.log("from appendReminders");
     if (reminderObj.upcoming === "true" || upcming) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
-      console.log($("#id--no-upc-rmd").hasClass("class--display-none"));
       if ($("#id--no-upc-rmd").hasClass("class--display-none") === false) {
         $("#id--no-upc-rmd").addClass("class--display-none");
       }
