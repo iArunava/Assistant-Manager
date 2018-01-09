@@ -24,9 +24,9 @@ browser.alarms.onAlarm.addListener((alarm) => {
     item[alarm.name].upcoming = "false";
 
     let updateItems = browser.storage.local.set({[alarm.name] : item[alarm.name]});
-    $("#id--reminder-"+alarm.name).remove();
-    updateItem.then(()=> {
+    updateItems.then(()=> {
       if (document.getElementById("id--reminder-"+alarm.name) !== undefined) {
+        $("#id--reminder-"+alarm.name).remove();
         appendReminders(item[alarm.name]);
       }
     });
@@ -66,7 +66,7 @@ browser.runtime.onStartup.addListener(() => {
   gettingItem.then((obj) => {
     let currEpoch = Math.round((new Date()).getTime());
     Object.values(obj).forEach((reminderObj) => {
-      if (reminderObj.uepoch < currEpoch) {
+      if (reminderObj.uepoch < currEpoch && reminderObj.upcoming == "true") {
         createNotification (reminderObj.rmd);
         reminderObj.upcoming = "false";
         browser.storage.local.set({[reminderObj.key] : reminderObj});

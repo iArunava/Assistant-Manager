@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 
 function onRemindersFetched(obj) {
-  console.log(obj);
+  //console.log(obj);
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
