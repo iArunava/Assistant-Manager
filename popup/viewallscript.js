@@ -16,14 +16,12 @@ $(document).ready(function () {
   }
 });
 
-function onRemindersFetched(obj, attachEvents = true) {
+function onRemindersFetched(obj) {
   console.log(obj);
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
     appendReminders(reminderObj);
-
-    if (!attachEvents) return;
 
     $(document).on('click', '#id--snooze-'+tKey, () => {
       $("#id--snooze-"+tKey).prop("disabled", true);
@@ -80,7 +78,6 @@ function onRemindersFetched(obj, attachEvents = true) {
 }
 
 function appendReminders (reminderObj, upcming = false) {
-    console.log("from appendReminders");
     if (reminderObj.upcoming === "true" || upcming) {
       $("#div--upcoming-reminders").append(createReminderTemplate(reminderObj));
       if ($("#id--no-upc-rmd").hasClass("class--display-none") === false) {
@@ -92,7 +89,6 @@ function appendReminders (reminderObj, upcming = false) {
       remInUp = true;
     } else {
       $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
-      console.log($("#id--no-ong-rmd").hasClass("class--display-none"));
       if ($("#id--no-ong-rmd").hasClass("class--display-none") === false) {
         $("#id--no-ong-rmd").addClass("class--display-none");
       }

@@ -23,12 +23,14 @@ browser.alarms.onAlarm.addListener((alarm) => {
 
     item[alarm.name].upcoming = "false";
 
-    browser.storage.local.set({[alarm.name] : item[alarm.name]});
+    let updateItems = browser.storage.local.set({[alarm.name] : item[alarm.name]});
+    $("#id--reminder-"+alarm.name).remove();
+    updateItem.then(()=> {
+      if (document.getElementById("id--reminder-"+alarm.name) !== undefined) {
+        appendReminders(item[alarm.name]);
+      }
+    });
 
-    if (document.getElementById("id--reminder-"+alarm.name) != undefined) {
-      $("#id--reminder-"+alarm.name).remove();
-      appendReminders(item[alarm.name]);
-    }
   });
 });
 
@@ -43,13 +45,23 @@ browser.storage.onChanged.addListener((changes, area) => {
     if (changes[item].oldValue === undefined && changes[item].newValue !== undefined && document.getElementById("id--reminder-"+item) === null) {
       //console.log("befoew");
       //console.log(changes[item]);
-      onRemindersFetched({[changes[item].newValue.key] : changes[item].newValue});
+      if (document.getElementById("id--no-upc-rmd") !== undefined) {
+        onRemindersFetched({[changes[item].newValue.key] : changes[item].newValue});
+      }
       //console.log("after");
     }
   }
 });
 
 browser.runtime.onStartup.addListener(() => {
+  /* Greeting Message */
+  let tTime = (new Date()).getHours();
+  let gMsg = "";
+  if (tTime >= 3 && tTime < 12) gMsg = "Good Morning! :)";
+  else if (tTime >= 12 && tTime < 18) gMsg = "Good Afternoon! :)"
+  else gMsg = "Good Evening! :)"
+  createNotification(gMsg);
+
   let gettingItem = browser.storage.local.get();
   gettingItem.then((obj) => {
     let currEpoch = Math.round((new Date()).getTime());
@@ -61,6 +73,11 @@ browser.runtime.onStartup.addListener(() => {
       }
     });
   }, onError);
+});
+
+browser.runtime.onInstalled.addListener((details)=> {
+  console.log(details.reason);
+  deleteAll();
 });
 
 function createNotification (reminder) {
