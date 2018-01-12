@@ -1,3 +1,6 @@
+const FIRSTMSG = "Hi! I am Assistant Reminder. I'll remind you of all your upcoming tasks. :)";
+const UPDMSG = "How are you liking my new update? Be sure to rate and share :)"
+
 function setAlarm (item, key) {
   if (item.upcoming == "false") {
     item.upcoming = "true";
@@ -15,7 +18,6 @@ function setAlarm (item, key) {
 
 browser.alarms.onAlarm.addListener((alarm) => {
   let gettingItem = browser.storage.local.get(alarm.name);
-
   gettingItem.then((item) => {
     if (item[alarm.name] == undefined) return;
 
@@ -24,17 +26,10 @@ browser.alarms.onAlarm.addListener((alarm) => {
     item[alarm.name].upcoming = "false";
 
     let updateItems = browser.storage.local.set({[alarm.name] : item[alarm.name]});
-    updateItems.then(()=> {
-      if (document.getElementById("id--reminder-"+alarm.name) !== undefined) {
-        $("#id--reminder-"+alarm.name).remove();
-        appendReminders(item[alarm.name]);
-      }
-    });
-
   });
 });
 
-browser.storage.onChanged.addListener((changes, area) => {
+/*browser.storage.onChanged.addListener((changes, area) => {
   let changedItems = Object.keys(changes);
 
   //console.log(changedItems);
@@ -45,23 +40,16 @@ browser.storage.onChanged.addListener((changes, area) => {
     if (changes[item].oldValue === undefined && changes[item].newValue !== undefined && document.getElementById("id--reminder-"+item) === null) {
       //console.log("befoew");
       //console.log(changes[item]);
-      if (document.getElementById("id--no-upc-rmd") !== undefined) {
+      console.log(document.getElementById("id--no-upc-rmd"));
+      if (document.getElementById("id--no-upc-rmd") !== null) {
         onRemindersFetched({[changes[item].newValue.key] : changes[item].newValue});
       }
       //console.log("after");
     }
   }
-});
+});*/
 
 browser.runtime.onStartup.addListener(() => {
-  /* Greeting Message */
-  let tTime = (new Date()).getHours();
-  let gMsg = "";
-  if (tTime >= 3 && tTime < 12) gMsg = "Good Morning! :)";
-  else if (tTime >= 12 && tTime < 18) gMsg = "Good Afternoon! :)"
-  else gMsg = "Good Evening! :)"
-  createNotification(gMsg);
-
   let gettingItem = browser.storage.local.get();
   gettingItem.then((obj) => {
     let currEpoch = Math.round((new Date()).getTime());
@@ -77,8 +65,20 @@ browser.runtime.onStartup.addListener(() => {
 
 browser.runtime.onInstalled.addListener((details)=> {
   console.log(details.reason);
-  deleteAll();
+  if (details.reason == "install") createNotification(FIRSTMSG);
+  else createNotification(UPDMSG);
+  greet();
 });
+
+function greet() {
+  /* Greeting Message */
+  let tTime = (new Date()).getHours();
+  let gMsg = "";
+  if (tTime >= 3 && tTime < 12) gMsg = "Good Morning! :)";
+  else if (tTime >= 12 && tTime < 18) gMsg = "Good Afternoon! :)"
+  else gMsg = "Good Evening! :)"
+  createNotification(gMsg);
+}
 
 function createNotification (reminder) {
     browser.notifications.create({

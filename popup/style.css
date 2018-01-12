@@ -20,8 +20,12 @@ Indigo -> #3F51B5
   font-size: 20px;
 }
 
+#id--main-navbar {
+  background-color: #90CAF9;
+}
+
 .class--theme-color {
-  color: #4286f4;
+  color: #1E88E5;
   font-size: inherit;
 }
 
@@ -45,8 +49,10 @@ Indigo -> #3F51B5
     margin-bottom: 20px;
 }
 
-textarea {
+#id--the-reminder {
   resize: none;
+  padding: 5px;
+  letter-spacing: 1px;
 }
 
 .class--just-center {
@@ -69,7 +75,7 @@ textarea {
   margin-top: 20px;
 }
 
-.class--title {
+.font--size-35 {
   font-size: 35px;
   text-align: center;
 }

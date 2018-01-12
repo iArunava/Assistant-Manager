@@ -19,30 +19,46 @@
   </head>
 
   <body>
+    <nav id="id--main-navbar" class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand font--size-35" href="#"> <span class="class--theme-color">A</span>ssistant Reminder </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+    			<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Options
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" id="id--delete-all" href="#"> Remove all Reminders </a>
+            </div>
+          </li>
+    			<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Set Snooze time
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" id="id--snooze-1min" href="#"> 1 Minute <span class="" id="id--s1-tick">&nbsp;&nbsp;&nbsp;&#x2713;</span> </a>
+                <a class="dropdown-item" id="id--snooze-2min" href="#"> 2 Minute <span class="class--display-none" id="id--s2-tick">&nbsp;&nbsp;&nbsp;&#x2713;</span></a>
+                <a class="dropdown-item" id="id--snooze-5min" href="#"> 5 Minute <span class="class--display-none" id="id--s5-tick">&nbsp;&nbsp;&nbsp;&#x2713;</span></a>
+                <a class="dropdown-item" id="id--snooze-10min" href="#"> 10 Minute <span class="class--display-none" id="id--s10-tick">&nbsp;&nbsp;&nbsp;&#x2713;</span></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="button--the-refresh-btn" href="#"> Refresh </a>
+          </li>
+    			<!--<li class="nav-item">
+    	        <a class="nav-link" href="#" data-toggle="modal" data-target="#id--about-modal"> About Assistant Reminder </a>
+          </li>-->
+        </ul>
+      </div>
+    </nav>
+
     <div class="container">
 
       <div class="margin--top-10"></div>
-
-      <div class="row">
-        <div class="col-12 class--just-center">
-          <p class="class--title"> <span class="class--theme-color">A</span>ssistant Reminder </p>
-          <hr class="hr--title"/>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12 class--just-center">
-          <form class="float-right">
-            <div class="form-group">
-              <label for="id--snooze-mins"> Set Snooze time <small> in Minutes </small></label>
-              <select name="name--select-snooze-time" class="form-control" id="id--select-snooze-mins"></select>
-            </div>
-          </form>
-          <button id="id--delete-all" class="btn btn-sm btn-outline-danger"> Remove all reminders </button>
-        </div>
-      </div>
-
-      <div class="margin--top-20"></div>
 
       <div class="row">
         <div class="col-12">
@@ -70,6 +86,5 @@
     </div>
 
     <script src="./viewallscript.js"></script>
-    <script src="./../background.js"></script>
   </body>
 </html>

@@ -1,12 +1,13 @@
 var remInUp = false;
 var remInOn = false;
+var inter = 30000;
+var lObj;
 
 $(document).ready(function () {
-  let gettingItem = browser.storage.local.get();
-  remInUp = false;
-  remInOn = false;
-  gettingItem.then(onRemindersFetched, onError);
-
+  fetchAllNUpdate();
+  setInterval(() => {
+    fetchAllNUpdate();
+  }, inter)
 
   let sltSnzMins = $("select[name='name--select-snooze-time']");
   let minsAvl = [1, 2, 5, 10];
@@ -17,26 +18,27 @@ $(document).ready(function () {
 });
 
 function onRemindersFetched(obj) {
-  //console.log(obj);
+  /*if (obj !== lObj) {
+    lObj = obj;
+  } else return;
+  console.log(obj == lObj);
+  console.log(obj);
+  console.log("from onRemindersFetched");*/
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
     appendReminders(reminderObj);
 
     $(document).on('click', '#id--snooze-'+tKey, () => {
-      $("#id--snooze-"+tKey).prop("disabled", true);
-      $("#id--reminder-" + tKey).remove();
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
-        let minSelected = $("#id--select-snooze-mins").find(":selected").text();
+        let minSelected = getSnoozeMinutes();
         let nEpoch = Math.max(item[tKey].uepoch, (Math.round((new Date()).getTime())))+(parseInt(minSelected)*60*1000);
-        console.log(nEpoch);
         let getBgdPg = browser.runtime.getBackgroundPage();
         getBgdPg.then((page) => {
           item[tKey].uepoch = nEpoch;
           let settingAlarm = page.setAlarm(item[tKey], tKey);
           item[tKey].upcoming = "true";
-          appendReminders (item[tKey], true)
           $("#id--snooze-"+tKey).html("Snoozed!");
           setTimeout(() => {
             $("#id--snooze-"+tKey).html("Snooze");
@@ -56,9 +58,9 @@ function onRemindersFetched(obj) {
         let parentID = $("#id--reminder-"+tKey).parent().attr('id');
         $("#id--reminder-" + tKey).remove();
         if ($("#"+parentID).children().length === 0) {
-          console.log($("#"+parentID).children());
+          /*console.log($("#"+parentID).children());
           console.log(parentID);
-          console.log(parentID == "div--ongoing-reminders");
+          console.log(parentID == "div--ongoing-reminders");*/
           if (parentID == "div--ongoing-reminders") {
             $("#id--no-ong-rmd").removeClass("class--display-none");
           }
@@ -123,6 +125,46 @@ function createReminderTemplate(reminderObj) {
   return template;
 }
 
+function getSnoozeMinutes() {
+  let minArr = [1, 2, 5, 10];
+  for (let i = 0; i < minArr.length; ++i) {
+    let tempId = "id--s" + minArr[i].toString() + "-tick";
+    if (!$("#" + tempId).hasClass("class--display-none")) return minArr[i];
+  }
+}
+
+$("#id--snooze-1min").click(()=> {
+  $("#id--s1-tick").removeClass("class--display-none");
+  if (!$("#id--s2-tick").hasClass("class--display-none")) { $("#id--s2-tick").addClass("class--display-none"); }
+  if (!$("#id--s5-tick").hasClass("class--display-none")) { $("#id--s5-tick").addClass("class--display-none"); }
+  if (!$("#id--s10-tick").hasClass("class--display-none")) { $("#id--s10-tick").addClass("class--display-none"); }
+});
+
+$("#id--snooze-2min").click(()=> {
+  $("#id--s2-tick").removeClass("class--display-none");
+  if (!$("#id--s1-tick").hasClass("class--display-none")) { $("#id--s1-tick").addClass("class--display-none"); }
+  if (!$("#id--s5-tick").hasClass("class--display-none")) { $("#id--s5-tick").addClass("class--display-none"); }
+  if (!$("#id--s10-tick").hasClass("class--display-none")) { $("#id--s10-tick").addClass("class--display-none"); }
+});
+
+$("#id--snooze-5min").click(()=> {
+  $("#id--s5-tick").removeClass("class--display-none");
+  if (!$("#id--s2-tick").hasClass("class--display-none")) { $("#id--s2-tick").addClass("class--display-none"); }
+  if (!$("#id--s1-tick").hasClass("class--display-none")) { $("#id--s1-tick").addClass("class--display-none"); }
+  if (!$("#id--s10-tick").hasClass("class--display-none")) { $("#id--s10-tick").addClass("class--display-none"); }
+});
+
+$("#id--snooze-10min").click(()=> {
+  $("#id--s10-tick").removeClass("class--display-none");
+  if (!$("#id--s2-tick").hasClass("class--display-none")) { $("#id--s2-tick").addClass("class--display-none"); }
+  if (!$("#id--s5-tick").hasClass("class--display-none")) { $("#id--s5-tick").addClass("class--display-none"); }
+  if (!$("#id--s1-tick").hasClass("class--display-none")) { $("#id--s1-tick").addClass("class--display-none"); }
+});
+
+$("#button--the-refresh-btn").click(()=> {
+  fetchAllNUpdate();
+});
+
 $("#id--delete-all").click(() => {
   $("#id--delete-all").prop('disabled', true);
   let getBgdPg = browser.runtime.getBackgroundPage();
@@ -139,6 +181,19 @@ $("#id--delete-all").click(() => {
     }, 500)
   });
 });
+
+function clearScreen() {
+  $("#div--ongoing-reminders").empty();
+  $("#div--upcoming-reminders").empty();
+}
+
+function fetchAllNUpdate() {
+    let gettingItem = browser.storage.local.get();
+    remInUp = false;
+    remInOn = false;
+    clearScreen();
+    gettingItem.then(onRemindersFetched, onError);
+}
 
 function onError(error) {
   console.log(error);

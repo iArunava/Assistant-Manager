@@ -72,7 +72,7 @@ $("#id--save-btn").click(function() {
         }, onError);
       }, onError);
 
-    } else alert ("Invalid Date!");
+    } else alert ("Time is in past! / Invalid Date");
 });
 
 $("#id--view-all-btn").click(() => {
