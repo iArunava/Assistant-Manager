@@ -68,10 +68,10 @@ $("#id--save-btn").click(function() {
           setTimeout(() => {
             $("#id--save-btn").html("Save");
             $("#id--save-btn").prop("disabled", false);
-          }, 2000);
+            window.close();
+          }, 1500);
         }, onError);
       }, onError);
-
     } else alert ("Time is in past! / Invalid Date");
 });
 
