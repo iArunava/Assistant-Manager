@@ -12,7 +12,6 @@ setTimeout (() => {
       createNotification (UPDAVBL);
       setTimeout (() => {
         createNotification(RATESHAREUPD);
-        console.log("sdada");
       }, 1000)
     }
   });

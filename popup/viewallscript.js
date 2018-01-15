@@ -5,9 +5,9 @@ var lObj;
 
 $(document).ready(function () {
   fetchAllNUpdate();
-  setInterval(() => {
+  /*setInterval(() => {
     fetchAllNUpdate();
-  }, inter)
+  }, inter)*/
 
   let sltSnzMins = $("select[name='name--select-snooze-time']");
   let minsAvl = [1, 2, 5, 10];
