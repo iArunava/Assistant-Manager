@@ -26,9 +26,11 @@ function onRemindersFetched(obj) {
   console.log("from onRemindersFetched");*/
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
+    tKey = tKey.replace(/\s/g, '');
 
     appendReminders(reminderObj);
 
+    console.log(tKey);
     $(document).on('click', '#id--snooze-'+tKey, () => {
       let gettingItem = browser.storage.local.get(tKey);
       gettingItem.then((item) => {
@@ -104,6 +106,7 @@ function appendReminders (reminderObj, upcming = false) {
 function createReminderTemplate(reminderObj) {
   var reminder = reminderObj.rmd;
   var tKey = reminderObj.key;
+  tKey = tKey.replace(/\s/g, '');
   var tColor = reminderObj.color.toLowerCase();
 
   let template = `
