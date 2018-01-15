@@ -50,6 +50,8 @@ browser.alarms.onAlarm.addListener((alarm) => {
 });*/
 
 browser.runtime.onStartup.addListener(() => {
+  greet();
+  
   let gettingItem = browser.storage.local.get();
   gettingItem.then((obj) => {
     let currEpoch = Math.round((new Date()).getTime());
