@@ -1,5 +1,22 @@
 const FIRSTMSG = "Hi! I am Assistant Reminder. I'll remind you of all your upcoming tasks. :)";
 const UPDMSG = "How are you liking my new update? Be sure to rate and share :)"
+const UPDAVBL = "Hey! I am excited!\nThe HeadQuarters has released a newer version for me!\n Be sure to check it out! :)"
+const RATESHAREUPD = "Rate and Share if you like the new update! :)"
+
+setTimeout (() => {
+  let requestingCheck = browser.runtime.requestUpdateCheck();
+  requestingCheck.then((status, details) => {
+    console.log(status);
+    if (status === "update_available") {
+      console.log(details.version);
+      createNotification (UPDAVBL);
+      setTimeout (() => {
+        createNotification(RATESHAREUPD);
+        console.log("sdada");
+      }, 1000)
+    }
+  });
+}, 60000);
 
 function setAlarm (item, key) {
   if (item.upcoming == "false") {
@@ -51,7 +68,7 @@ browser.alarms.onAlarm.addListener((alarm) => {
 
 browser.runtime.onStartup.addListener(() => {
   greet();
-  
+
   let gettingItem = browser.storage.local.get();
   gettingItem.then((obj) => {
     let currEpoch = Math.round((new Date()).getTime());
@@ -68,8 +85,8 @@ browser.runtime.onStartup.addListener(() => {
 browser.runtime.onInstalled.addListener((details)=> {
   console.log(details.reason);
   if (details.reason == "install") createNotification(FIRSTMSG);
-  else createNotification(UPDMSG);
   greet();
+  else createNotification(UPDMSG);
 });
 
 function greet() {
