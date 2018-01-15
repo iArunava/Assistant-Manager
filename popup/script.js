@@ -45,12 +45,11 @@ $("#id--save-btn").click(function() {
     let setSeconds = $("#id--sec-selector-quick").val();
     let setColor   = $("#id--color-selector").val();
 
-    console.log(setColor);
-
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
         setSeconds) === true) {
-      let key = reminder+setDate+setHours+setMinutes+setSeconds;
+      let noSpaceRmd = reminder.replace(/\s/g, '');
+      let key = noSpaceRmd+setDate+setHours+setMinutes+setSeconds;
 
       let when = Math.round((new Date(setDate.slice(0, 4),
                                    parseInt(setDate.slice(5, 7))-1,

@@ -12,7 +12,7 @@ setTimeout (() => {
       createNotification (UPDAVBL);
       setTimeout (() => {
         createNotification(RATESHAREUPD);
-      }, 1000)
+      }, 1000);
     }
   });
 }, 60000);
@@ -83,8 +83,8 @@ browser.runtime.onStartup.addListener(() => {
 
 browser.runtime.onInstalled.addListener((details)=> {
   console.log(details.reason);
-  if (details.reason == "install") createNotification(FIRSTMSG);
   greet();
+  if (details.reason == "install") createNotification(FIRSTMSG);
   else createNotification(UPDMSG);
 });
 
