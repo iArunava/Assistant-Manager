@@ -104,11 +104,12 @@ function appendReminders (reminderObj, upcming = false) {
 function createReminderTemplate(reminderObj) {
   var reminder = reminderObj.rmd;
   var tKey = reminderObj.key;
+  var tColor = reminderObj.color.toLowerCase();
 
   let template = `
     <div id="id--reminder-${tKey}">
       <div class="margin--top-10">
-      <div class="class--rmd-box">
+      <div class="class--rmd-box class--background-color-${tColor}">
         <div class="margin--top-10">
         <div class="float-right">
           <button id="id--snooze-${tKey}" class="btn btn-outline-primary btn-sm"> Snooze </button>

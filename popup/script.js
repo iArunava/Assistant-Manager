@@ -43,6 +43,9 @@ $("#id--save-btn").click(function() {
     let setHours   = $("#id--hour-selector-quick").val();
     let setMinutes = $("#id--min-selector-quick").val();
     let setSeconds = $("#id--sec-selector-quick").val();
+    let setColor   = $("#id--color-selector").val();
+
+    console.log(setColor);
 
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
@@ -60,6 +63,7 @@ $("#id--save-btn").click(function() {
         min:    setMinutes,
         secs:   setSeconds,
         date:   setDate,
+        color:  setColor,
         key:    key, //TODO: Don't store the key the itself, not a good design
         upcoming: "true",
         uepoch: when

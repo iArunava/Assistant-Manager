@@ -1,13 +1,18 @@
 /*
-Theme Color:
-Blue   -> #4286f4
+Colors:
+Light Green   -> #9CCC65 | (156, 204, 101)
+Light Lime    -> #D4E157 | (212, 225, 87)
+Light Orange  -> #FFA726 | (225, 167, 38)
+Light Blue    -> #42A5F5 | (66, 165, 245)
+Light Red     -> #EF5350 | (239, 83, 80)
+Light Purple  -> #AB47BC | (171, 71, 188)
+
 Green  -> #8BC34A | (139, 195, 74)
-Light Green -> #9CCC65 | (156, 204, 101)
-Light Lime -> #D4E157 | (212, 225, 87)
-Light Orange -> #FFA726 | (225, 167, 38)
-Light Blue -> #42A5F5 | (66, 165, 245)
-Light Red -> #EF5350 | (239, 83, 80)
-Light Purple -> #AB47BC | (171, 71, 188)
+Lime   -> #CDDC39
+Orange -> #FF9800
+Blue   -> #2196F3
+Red    -> #F44336
+Purple -> #9C27B0
 Indigo -> #3F51B5
 */
 
@@ -96,32 +101,36 @@ Indigo -> #3F51B5
 }
 
 .class--rmd-box {
-  border: 1px solid #8BC34A;
   border-radius: 5px;
   padding: 5px 8px;
-  background-color: rgba(156, 204, 101, 0.2);
 }
 
 .class--background-color-green {
+  border: 1px solid #8BC34A;
   background-color: rgba(156, 204, 101, 0.2);
 }
 
 .class--background-color-lime {
+  border: 1px solid #CDDC39;
   background-color: rgba(212, 225, 87, 0.2);
 }
 
 .class--background-color-orange {
+  border: 1px solid #FF9800;
   background-color: rgba(225, 167, 38, 0.2);
 }
 
 .class--background-color-blue {
+  border: 1px solid #2196F3;
   background-color: rgba(66, 165, 245, 0.2);
 }
 
 .class--background-color-red {
+  border: 1px solid #F44336;
   background-color: rgba(239, 83, 80, 0.2);
 }
 
 .class--background-color-purple {
+  border: 1px solid #9C27B0;
   background-color: rgba(171, 71, 188, 0.2);
 }
