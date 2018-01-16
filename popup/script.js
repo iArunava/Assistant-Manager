@@ -16,6 +16,7 @@ $(document).ready(function() {
   let sltMins   = $("select[name='name--select-mins']");
   let sltSecs   = $("select[name='name--select-secs']");
   let sltColors = $("select[name='name--select-color']");
+  let sltRepeat = $("select[name='name--select-repeat']");
 
   for (let i = 0; i < 60; ++i) {
     let tempStr = "<option> " + i.toString() + " </option>";
@@ -28,6 +29,12 @@ $(document).ready(function() {
   for (let i = 0; i < colorArr.length; ++i) {
     let tempStr = "<option> " + colorArr[i] + " </option>";
     $(tempStr).appendTo(sltColors);
+  }
+
+  let repeatArr = ["Once", "Daily", "Weekly", "Monthly", "Yearly"];
+  for (let i = 0; i < repeatArr.length; ++i) {
+    let tempStr = "<option> " + repeatArr[i] + " </option>";
+    $(tempStr).appendTo(sltRepeat);
   }
 
   $("#id--color-selector").val(colorArr[0]);
