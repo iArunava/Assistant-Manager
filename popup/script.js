@@ -37,6 +37,7 @@ $(document).ready(function() {
     $(tempStr).appendTo(sltRepeat);
   }
 
+  $("#id--repeat-selector").val(repeatArr[0]);
   $("#id--color-selector").val(colorArr[0]);
   $("#id--hour-selector-quick").val(tDate.getHours());
   $("#id--min-selector-quick").val(tDate.getMinutes());
@@ -51,6 +52,7 @@ $("#id--save-btn").click(function() {
     let setMinutes = $("#id--min-selector-quick").val();
     let setSeconds = $("#id--sec-selector-quick").val();
     let setColor   = $("#id--color-selector").val();
+    let setRepeat  = $("#id--repeat-selector").val();
 
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
@@ -70,6 +72,7 @@ $("#id--save-btn").click(function() {
         secs:   setSeconds,
         date:   setDate,
         color:  setColor,
+        repeat: setRepeat,
         key:    key, //TODO: Don't store the key the itself, not a good design
         upcoming: "true",
         uepoch: when
@@ -80,7 +83,6 @@ $("#id--save-btn").click(function() {
       setting.then(() => {
         let settingAlarm = browser.runtime.getBackgroundPage();
         settingAlarm.then((page) => {
-          let key = reminder+setDate+setHours+setMinutes+setSeconds;
           page.setAlarm(currItem, key);
           $("#id--save-btn").prop("disabled", true);
           $("#id--save-btn").html("Saved!");

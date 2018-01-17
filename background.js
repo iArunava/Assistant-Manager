@@ -3,7 +3,7 @@ const UPDMSG = "How are you liking my new update? Be sure to rate and share :)"
 const UPDAVBL = "Hey! I am excited!\nThe HeadQuarters has released a newer version for me!\n Be sure to check it out! :)"
 const RATESHAREUPD = "Rate and Share if you like the new update! :)"
 
-setTimeout (() => {
+/*setTimeout (() => {
   let requestingCheck = browser.runtime.requestUpdateCheck();
   requestingCheck.then((status, details) => {
     console.log(status);
@@ -15,7 +15,7 @@ setTimeout (() => {
       }, 1000);
     }
   });
-}, 60000);
+}, 60000);*/
 
 function setAlarm (item, key) {
   if (item.upcoming == "false") {
