@@ -100,6 +100,10 @@ Indigo -> #3F51B5
   font-size: 27px;
 }
 
+.class--reminder-date-time {
+  color: #3949AB;
+}
+
 .class--rmd-box {
   border-radius: 5px;
   padding: 5px 8px;
@@ -133,8 +137,4 @@ Indigo -> #3F51B5
 .class--background-color-purple {
   border: 1px solid #9C27B0;
   background-color: rgba(171, 71, 188, 0.2);
-}
-
-input:disabled {
-  display: none;
 }

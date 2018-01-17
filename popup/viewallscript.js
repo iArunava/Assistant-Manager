@@ -1,7 +1,6 @@
 var remInUp = false;
 var remInOn = false;
 var inter = 30000;
-var lObj;
 var seenKeysDict = [];
 
 const REPEATONCE = "Once";
@@ -25,16 +24,9 @@ $(document).ready(function () {
 });
 
 function onRemindersFetched(obj) {
-  /*if (obj !== lObj) {
-    lObj = obj;
-  } else return;
-  console.log(obj == lObj);
-  console.log(obj);
-  console.log("from onRemindersFetched");*/
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
-    console.log(tKey);
     appendReminders(reminderObj);
 
     // Not Attaching Listeners if previously attached
@@ -55,7 +47,6 @@ function onRemindersFetched(obj) {
       getReminder.then((item) => {
         let tRepeat = item[tKey].repeat;
         let nEpoch = 0;
-        console.log(tRepeat);
         switch (tRepeat) {
           case REPEATONCE:
             $("#id--delete-rmd-"+tKey).trigger("click");
@@ -92,9 +83,6 @@ function onRemindersFetched(obj) {
         let parentID = $("#id--reminder-"+tKey).parent().attr('id');
         $("#id--reminder-" + tKey).remove();
         if ($("#"+parentID).children().length === 0) {
-          /*console.log($("#"+parentID).children());
-          console.log(parentID);
-          console.log(parentID == "div--ongoing-reminders");*/
           if (parentID == "div--ongoing-reminders") {
             $("#id--no-ong-rmd").removeClass("class--display-none");
           }
@@ -154,7 +142,7 @@ function createReminderTemplate(reminderObj) {
           <button id="id--delete-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Delete </button>
         </div>
         <p class="class--reminder-name"> ${reminder} </p>
-        <p> Upcoming on: ${reminderObj.date} at: ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </p>
+        <p> Upcoming on: <span class="class--reminder-date-time"> ${reminderObj.date} </span> at: <span class="class--reminder-date-time"> ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </span></p>
         <div class="margin--top-10">
       </div>
       <div class="margin--top-10">
@@ -172,15 +160,6 @@ function getSnoozeMinutes() {
   }
 }
 
-/* TODO: Clicking "Snooze" on reminders that are repeated for
-  "daily", "weekly", "Monthly", or "Yearly" then the remiders are
-  snoozed to the minutes selected.
-
-  TODO: Also, when reminders which are repeated more then once like "weekly"
-  then on clicking "Done" only the reminder gets snoozed for that period starting
-  from the ~period which is the time when "Done" is clicked~
-  this is wrong as it should repeat at time when the user has initially mentioned.
-  */
 function snoozeTill (nEpoch, item, tKey) {
   let getBgdPg = browser.runtime.getBackgroundPage();
   getBgdPg.then((page) => {
