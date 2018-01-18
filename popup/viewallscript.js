@@ -249,56 +249,38 @@ $("#id--show-only-all-rmd").click(() => {
 });
 
 $("#id--show-only-green-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-green-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-green-rmd");
   fetchAllNUpdate();
 });
 
 $("#id--show-only-red-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-red-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-red-rmd");
   fetchAllNUpdate();
 });
 
 $("#id--show-only-blue-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-blue-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-blue-rmd");
   fetchAllNUpdate();
 });
 
 $("#id--show-only-orange-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-orange-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-orange-rmd");
   fetchAllNUpdate();
 });
 
 $("#id--show-only-lime-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-lime-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-lime-rmd");
   fetchAllNUpdate();
 });
 
 $("#id--show-only-purple-rmd").click(() => {
-  Object.keys(showOnlyDict).forEach((key) => {
-    if (key !== "id--show-only-purple-rmd") {
-      $("#"+showOnlyDict[key]).addClass("class--display-none");
-    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  });
+  switchOffShowAll();
+  toggleShowOnlyButton("id--show-only-purple-rmd");
   fetchAllNUpdate();
 });
 
@@ -322,6 +304,18 @@ $("#id--delete-all").click(() => {
     }, 500)
   });
 });
+
+function toggleShowOnlyButton(showOnlyID) {
+  if ($("#"+showOnlyDict[showOnlyID]).hasClass("class--display-none")) {
+    $("#"+showOnlyDict[showOnlyID]).removeClass("class--display-none");
+  } else $("#"+showOnlyDict[showOnlyID]).addClass("class--display-none");
+}
+
+function switchOffShowAll() {
+  if (!$("#id--s-all-tick").hasClass("class--display-none")) {
+    $("#id--s-all-tick").addClass("class--display-none");
+  }
+}
 
 function showThisReminder(color) {
   color = color.toLowerCase();
