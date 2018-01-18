@@ -230,13 +230,11 @@ $("#id--snooze-10min").click(()=> {
 });
 
 $("#id--show-only-ongoing-rmd").click(() => {
-  $("#id--s-ongoing-tick").removeClass("class--display-none");
-  $("#id--s-upcoming-tick").addClass("class--display-none");
+  toggleOngUpcButton("id--show-only-ongoing-rmd");
 });
 
 $("#id--show-only-upcoming-rmd").click(() => {
-  $("#id--s-upcoming-tick").removeClass("class--display-none");
-  $("#id--s-ongoing-tick").addClass("class--display-none");
+  toggleOngUpcButton("id--show-only-upcoming-rmd");
 });
 
 $("#id--show-only-all-rmd").click(() => {
@@ -304,6 +302,12 @@ $("#id--delete-all").click(() => {
     }, 500)
   });
 });
+
+function toggleOngUpcButton(ongUpcID) {
+  if ($("#"+ongUpcID).hasClass("class--display-none")) {
+    $("#"+ongUpcID).removeClass("class--display-none");
+  } else $("#"+ongUpcID).addClass("class--display-none");
+}
 
 function toggleShowOnlyButton(showOnlyID) {
   if ($("#"+showOnlyDict[showOnlyID]).hasClass("class--display-none")) {
