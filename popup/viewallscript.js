@@ -9,6 +9,16 @@ const REPEATWEEK = "Weekly";
 const REPEATMONTH = "Monthly";
 const REPEATYEAR = "Yearly";
 
+const showOnlyDict = {
+         "id--show-only-all-rmd"    : "id--s-all-tick",
+         "id--show-only-green-rmd"  : "id--s-green-tick",
+         "id--show-only-red-rmd"    : "id--s-red-tick",
+         "id--show-only-blue-rmd"   : "id--s-blue-tick",
+         "id--show-only-purple-rmd" : "id--s-purple-tick",
+         "id--show-only-lime-rmd"   : "id--s-lime-tick",
+         "id--show-only-orange-rmd" : "id--s-orange-tick"
+        }
+
 $(document).ready(function () {
   fetchAllNUpdate();
   /*setInterval(() => {
@@ -215,6 +225,74 @@ $("#id--snooze-10min").click(()=> {
   if (!$("#id--s2-tick").hasClass("class--display-none")) { $("#id--s2-tick").addClass("class--display-none"); }
   if (!$("#id--s5-tick").hasClass("class--display-none")) { $("#id--s5-tick").addClass("class--display-none"); }
   if (!$("#id--s1-tick").hasClass("class--display-none")) { $("#id--s1-tick").addClass("class--display-none"); }
+});
+
+$("#id--show-only-ongoing-rmd").click(() => {
+  $("#id--s-ongoing-tick").removeClass("class--display-none");
+  $("#id--s-upcoming-tick").addClass("class--display-none");
+});
+
+$("#id--show-only-upcoming-rmd").click(() => {
+  $("#id--s-upcoming-tick").removeClass("class--display-none");
+  $("#id--s-ongoing-tick").addClass("class--display-none");
+});
+
+$("#id--show-only-all-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-all-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-green-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-green-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-red-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-red-rmd") {
+      console.log(key + " : " + showOnlyDict[key]);
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-blue-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    console.log(key);
+    if (key !== "id--show-only-blue-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-orange-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-orange-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-lime-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-lime-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
+});
+
+$("#id--show-only-purple-rmd").click(() => {
+  Object.keys(showOnlyDict).forEach((key) => {
+    if (key !== "id--show-only-purple-rmd") {
+      $("#"+showOnlyDict[key]).addClass("class--display-none");
+    } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
+  })
 });
 
 $("#button--the-refresh-btn").click(()=> {
