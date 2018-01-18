@@ -37,6 +37,8 @@ function onRemindersFetched(obj) {
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
+    if (showThisReminder(reminderObj.color) !== true) return;
+
     appendReminders(reminderObj);
 
     // Not Attaching Listeners if previously attached
@@ -187,8 +189,8 @@ function snoozeTill (nEpoch, item, tKey) {
     item[tKey].uepoch = nEpoch;
     item[tKey].upcoming = "false";
 
-    console.log(item[tKey].date);
-    console.log(nEpoch);
+    //console.log(item[tKey].date);
+    //console.log(nEpoch);
 
     let settingAlarm = page.setAlarm(item[tKey], tKey);
     $("#id--snooze-"+tKey).html("Snoozed!");
@@ -242,7 +244,8 @@ $("#id--show-only-all-rmd").click(() => {
     if (key !== "id--show-only-all-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-green-rmd").click(() => {
@@ -250,25 +253,26 @@ $("#id--show-only-green-rmd").click(() => {
     if (key !== "id--show-only-green-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-red-rmd").click(() => {
   Object.keys(showOnlyDict).forEach((key) => {
     if (key !== "id--show-only-red-rmd") {
-      console.log(key + " : " + showOnlyDict[key]);
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-blue-rmd").click(() => {
   Object.keys(showOnlyDict).forEach((key) => {
-    console.log(key);
     if (key !== "id--show-only-blue-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-orange-rmd").click(() => {
@@ -276,7 +280,8 @@ $("#id--show-only-orange-rmd").click(() => {
     if (key !== "id--show-only-orange-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-lime-rmd").click(() => {
@@ -284,7 +289,8 @@ $("#id--show-only-lime-rmd").click(() => {
     if (key !== "id--show-only-lime-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-purple-rmd").click(() => {
@@ -292,7 +298,8 @@ $("#id--show-only-purple-rmd").click(() => {
     if (key !== "id--show-only-purple-rmd") {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
-  })
+  });
+  fetchAllNUpdate();
 });
 
 $("#button--the-refresh-btn").click(()=> {
@@ -315,6 +322,13 @@ $("#id--delete-all").click(() => {
     }, 500)
   });
 });
+
+function showThisReminder(color) {
+  color = color.toLowerCase();
+  if (!$("#id--s-all-tick").hasClass("class--display-none")) return true;
+  if (!$("#id--s-"+color+"-tick").hasClass("class--display-none")) return true;
+  return false;
+}
 
 function getNextDay(cDate) {
   let nDate = cDate;
