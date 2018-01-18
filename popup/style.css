@@ -59,6 +59,11 @@ Indigo -> #3F51B5
     margin-bottom: 20px;
 }
 
+.class--hr-upc-ong-seperator {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 #id--the-reminder {
   resize: none;
   padding: 5px;

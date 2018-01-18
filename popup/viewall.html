@@ -29,14 +29,6 @@
         <ul class="navbar-nav ml-auto">
     			<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Options
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" id="id--delete-all" href="#"> Remove all Reminders </a>
-            </div>
-          </li>
-    			<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Show Only
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,6 +55,14 @@
                 <a class="dropdown-item" id="id--snooze-10min" href="#"> 10 Minute <span class="class--display-none" id="id--s10-tick">&nbsp;&nbsp;&nbsp;&#x2713;</span></a>
             </div>
           </li>
+    			<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Options
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" id="id--delete-all" href="#"> Remove all Reminders </a>
+            </div>
+          </li>
           <li class="nav-item">
             <a class="nav-link" id="button--the-refresh-btn" href="#"> Refresh </a>
           </li>
@@ -77,7 +77,7 @@
 
       <div class="margin--top-10"></div>
 
-      <div class="row class--display-none">
+      <div id="id--ongoing-reminders-top-div" class="row">
         <div class="col-12">
           <p class="class--sub-title"> <span class="class--theme-color">O</span>ngoing Reminders </p>
           <hr class="hr--subtitle"/>
@@ -88,9 +88,9 @@
 
       <div class="margin--top-20"></div>
 
-      <hr/>
+      <hr class="class--display-none class--hr-upc-ong-seperator" id="hr--upc-ong-seperator"/>
 
-      <div class="row">
+      <div class="class--display-none" id="id--upcoming-reminders-top-div" class="row">
         <div class="col-12">
           <p class="class--sub-title"> <span class="class--theme-color">U</span>pcoming Reminders </p>
           <hr class="hr--subtitle"/>

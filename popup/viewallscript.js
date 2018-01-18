@@ -230,11 +230,13 @@ $("#id--snooze-10min").click(()=> {
 });
 
 $("#id--show-only-ongoing-rmd").click(() => {
-  toggleOngUpcButton("id--show-only-ongoing-rmd");
+  toggleOngUpcButton("ongoing");
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-upcoming-rmd").click(() => {
-  toggleOngUpcButton("id--show-only-upcoming-rmd");
+  toggleOngUpcButton("upcoming");
+  fetchAllNUpdate();
 });
 
 $("#id--show-only-all-rmd").click(() => {
@@ -303,10 +305,27 @@ $("#id--delete-all").click(() => {
   });
 });
 
-function toggleOngUpcButton(ongUpcID) {
-  if ($("#"+ongUpcID).hasClass("class--display-none")) {
-    $("#"+ongUpcID).removeClass("class--display-none");
-  } else $("#"+ongUpcID).addClass("class--display-none");
+function toggleOngUpcButton(ongOrUpcRmd) {
+  if ($("#id--s-"+ongOrUpcRmd+"-tick").hasClass("class--display-none")) {
+    $("#id--s-"+ongOrUpcRmd+"-tick").removeClass("class--display-none");
+    if ($("#id--"+ongOrUpcRmd+"-reminders-top-div").hasClass("class--display-none")) {
+      $("#id--"+ongOrUpcRmd+"-reminders-top-div").removeClass("class--display-none");
+    }
+  } else {
+    $("#id--s-"+ongOrUpcRmd+"-tick").addClass("class--display-none");
+    if (!$("#id--"+ongOrUpcRmd+"-reminders-top-div").hasClass("class--display-none")) {
+      $("#id--"+ongOrUpcRmd+"-reminders-top-div").addClass("class--display-none");
+    }
+  }
+
+  if ((!$("#id--ongoing-reminders-top-div").hasClass("class--display-none")) && (!$("#id--upcoming-reminders-top-div").hasClass("class--display-none"))) {
+      if ($("#hr--upc-ong-seperator").hasClass("class--display-none"))
+        $("#hr--upc-ong-seperator").removeClass("class--display-none");
+  } else {
+      if (!$("#hr--upc-ong-seperator").hasClass("class--display-none")) {
+        $("#hr--upc-ong-seperator").addClass("class--display-none");
+      }
+  }
 }
 
 function toggleShowOnlyButton(showOnlyID) {
