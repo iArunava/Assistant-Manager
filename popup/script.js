@@ -1,6 +1,12 @@
 const NOTITITLE = "Assistant Reminder says:";
 var tDate = new Date();
 
+const monthDict = ["January", "February", "March", "April",
+                   "May", "June", "July", "August", "September",
+                   "October", "November", "December"];
+
+const numSuffix = ["th", "st", "nd", "rd"];
+
 $(document).ready(function() {
 
   let month = ("0" + (tDate.getMonth() + 1)).slice(-2);
@@ -48,17 +54,29 @@ $(document).ready(function() {
 $("#id--save-btn").click(function() {
     let reminder   = $("#id--the-reminder").val();
     let setDate    = $("#id--date").val();
-    let setHours   = $("#id--hour-selector-quick").val();
-    let setMinutes = $("#id--min-selector-quick").val();
-    let setSeconds = $("#id--sec-selector-quick").val();
+    let setHours   = $("#id--hour-selector-quick").val().toString();
+    let setMinutes = $("#id--min-selector-quick").val().toString();
+    let setSeconds = $("#id--sec-selector-quick").val().toString();
     let setColor   = $("#id--color-selector").val();
     let setRepeat  = $("#id--repeat-selector").val();
+
+    if (setHours.length === 1) setHours = '0'+setHours;
+    if (setMinutes.length === 1) setMinutes = '0'+setMinutes;
+    if (setSeconds.length === 1) setSeconds = '0'+setSeconds;
+
+    //setDate = dateToWords(setDate);
 
     if (document.getElementById("id--date").checkValidity() == true &&
         reminder.length > 0 && dateIsInFuture(setDate, setHours, setMinutes,
         setSeconds) === true) {
-      let noSpaceRmd = reminder.replace(/\s/g, '');
-      let key = noSpaceRmd+setDate+setHours+setMinutes+setSeconds;
+      //let noSpaceRmd = reminder.replace(/\s/g, '');
+      //let key = noSpaceRmd+setDate+setHours+setMinutes+setSeconds;
+      let currTime = new Date();
+      let key = currTime.getHours().toString() +
+                currTime.getMinutes().toString()+
+                currTime.getSeconds().toString() +
+                currTime.getTime().toString() + setHours + setMinutes + setSeconds;
+      //console.log(key);
 
       let when = Math.round((new Date(setDate.slice(0, 4),
                                    parseInt(setDate.slice(5, 7))-1,
@@ -105,6 +123,14 @@ $("#id--view-all-btn").click(() => {
 $("#id--cancel-btn").click(function() {
   window.close();
 });
+
+function dateToWords(tDate) {
+  let date = tDate.slice(8, 10);
+  let month = monthDict[parseInt(tDate.slice(5, 7))-1];
+  let year = tDate.slice(0, 4);
+  date += numSuffix[parseInt(date[1] >= '4' ? '0' : date[1])];
+  return (date + " " + month + ", "  + year);
+}
 
 function dateIsInFuture (date, hrs, mins, sec) {
   let cDate = new Date();

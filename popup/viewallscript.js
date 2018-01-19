@@ -19,6 +19,12 @@ const showOnlyDict = {
          "id--show-only-orange-rmd" : "id--s-orange-tick"
         }
 
+const monthDict = ["January", "February", "March", "April",
+                   "May", "June", "July", "August", "September",
+                   "October", "November", "December"];
+
+const numSuffix = ["th", "st", "nd", "rd"];
+
 $(document).ready(function () {
   fetchAllNUpdate();
   /*setInterval(() => {
@@ -164,6 +170,14 @@ function createReminderTemplate(reminderObj) {
   return template;
 }
 
+function dateToWords(tDate) {
+  let date = tDate.slice(8, 10);
+  let month = monthDict[parseInt(tDate.slice(5, 7))-1];
+  let year = tDate.slice(0, 4);
+  //date += numSuffix[parseInt(date[1] >= '4' ? '0' : date[1])];
+  return (date + " " + month + ", "  + year);
+}
+
 function getSnoozeMinutes() {
   let minArr = [1, 2, 5, 10];
   for (let i = 0; i < minArr.length; ++i) {
@@ -182,12 +196,16 @@ function snoozeTill (nEpoch, item, tKey) {
     let tDay = nDate.getDate().toString();
     if (tDay.length === 1) tday = '0'+tDay;
 
-    item[tKey].hrs = nDate.getHours();
-    item[tKey].min = nDate.getMinutes();
-    item[tKey].secs = nDate.getSeconds();
+    item[tKey].hrs = nDate.getHours().toString();
+    item[tKey].min = nDate.getMinutes().toString();
+    item[tKey].secs = nDate.getSeconds().toString();
     item[tKey].date = nDate.getFullYear().toString() + "-" + tMonth + "-" + tDay;
     item[tKey].uepoch = nEpoch;
     item[tKey].upcoming = "false";
+
+    if (item[tKey].hrs.length === 1) item[tKey].hrs = '0'+item[tKey].hrs;
+    if (item[tKey].min.length === 1) item[tKey].min = '0'+item[tKey].min;
+    if (item[tKey].secs.length === 1) item[tKey].secs = '0'+item[tKey].secs;
 
     //console.log(item[tKey].date);
     //console.log(nEpoch);
