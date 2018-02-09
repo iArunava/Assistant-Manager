@@ -145,8 +145,8 @@ function createReminderTemplate(reminderObj) {
   var reminder = reminderObj.rmd;
   var tKey = reminderObj.key;
   var tColor = reminderObj.color.toLowerCase();
+  var ttDate = dateToWords(reminderObj.date);
   let disabledStr = "";
-
   if (reminderObj.repeat !== "Once") disabledStr = "disabled";
 
   let template = `
@@ -160,7 +160,7 @@ function createReminderTemplate(reminderObj) {
           <button id="id--delete-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Delete </button>
         </div>
         <p class="class--reminder-name"> ${reminder} </p>
-        <p> Upcoming on: <span class="class--reminder-date-time"> ${reminderObj.date} </span> at: <span class="class--reminder-date-time"> ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </span></p>
+        <p> Upcoming on: <span class="class--reminder-date-time"> ${ttDate} </span> at: <span class="class--reminder-date-time"> ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </span></p>
         <div class="margin--top-10">
       </div>
       <div class="margin--top-10">
@@ -174,7 +174,8 @@ function dateToWords(tDate) {
   let date = tDate.slice(8, 10);
   let month = monthDict[parseInt(tDate.slice(5, 7))-1];
   let year = tDate.slice(0, 4);
-  //date += numSuffix[parseInt(date[1] >= '4' ? '0' : date[1])];
+  if (date[0] !== '1') date += numSuffix[parseInt(date[1] >= '4' ? '0' : date[1])];
+  else date += "th";
   return (date + " " + month + ", "  + year);
 }
 
@@ -194,7 +195,7 @@ function snoozeTill (nEpoch, item, tKey) {
     if (tMonth.length === 1) tMonth = '0'+tMonth;
 
     let tDay = nDate.getDate().toString();
-    if (tDay.length === 1) tday = '0'+tDay;
+    if (tDay.length === 1) tDay = '0'+tDay;
 
     item[tKey].hrs = nDate.getHours().toString();
     item[tKey].min = nDate.getMinutes().toString();

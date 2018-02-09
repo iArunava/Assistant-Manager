@@ -76,6 +76,8 @@ browser.runtime.onStartup.addListener(() => {
         createNotification (reminderObj.rmd);
         reminderObj.upcoming = "false";
         browser.storage.local.set({[reminderObj.key] : reminderObj});
+      } else if (reminderObj.uepoch > currEpoch && reminderObj.upcoming == "true") {
+        setAlarm(reminderObj, reminderObj.key);
       }
     });
   }, onError);
