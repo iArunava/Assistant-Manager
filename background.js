@@ -7,6 +7,7 @@ const precedor = 'settings__';
 
 const SETSSOUND = 'Make-sound-on-Notification';
 const SETSNOTI = 'Show-Notifications';
+const SETSGREET = 'Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
 
 /*setTimeout (() => {
   let requestingCheck = browser.runtime.requestUpdateCheck();
@@ -114,15 +115,21 @@ browser.runtime.onInstalled.addListener((details)=> {
 
 function greet() {
   /* Greeting Message */
-  let tTime = (new Date()).getHours();
-  let gMsg = "";
-  if (tTime >= 3 && tTime < 12) gMsg = "Good Morning! :)";
-  else if (tTime >= 12 && tTime < 18) gMsg = "Good Afternoon! :)";
-  else gMsg = "Good Evening! :)";
-  createNotification(gMsg);
+  let greetStatus = browser.storage.local.get(precedor + SETSGREET);
+  greetStatus.then(obj => {
+      if (obj[precedor + SETSGREET] == 'Yes') {
+          let tTime = (new Date()).getHours();
+          let gMsg = "";
+          if (tTime >= 3 && tTime < 12) gMsg = "Good Morning! :)";
+          else if (tTime >= 12 && tTime < 18) gMsg = "Good Afternoon! :)";
+          else gMsg = "Good Evening! :)";
+          createNotification(gMsg, true);
+      }
+  })
+
 }
 
-function createNotification (reminder) {
+function createNotification (reminder, greet=false) {
     let makeSound = browser.storage.local.get(precedor + SETSSOUND);
     makeSound.then(obj => {
         if (obj[precedor + SETSSOUND] == 'Yes') pling();
@@ -130,7 +137,7 @@ function createNotification (reminder) {
 
     let createNoti = browser.storage.local.get(precedor + SETSNOTI);
     createNoti.then(obj => {
-        if (obj[precedor + SETSNOTI] == 'Yes') {
+        if (obj[precedor + SETSNOTI] == 'Yes' || greet) {
             browser.notifications.create({
               "type": "basic",
               "title": "Assitant Reminder Says: ",
@@ -151,8 +158,9 @@ function deleteAll () {
   let gettingItem = browser.storage.local.get();
   gettingItem.then(obj => {
       Object.values(obj).forEach(reminderObj => {
-          if (reminderObj.key == null || reminderObj.key == undefined) return;
-          browser.storage.local.remove(reminderObj);
+          if (reminderObj.key != undefined) {
+              browser.storage.local.remove(reminderObj.key);
+          }
       });
   });
 }
