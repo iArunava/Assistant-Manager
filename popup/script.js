@@ -120,6 +120,12 @@ $("#id--view-all-btn").click(() => {
   });
 });
 
+$('#id--settings-btn').click(() => {
+    browser.tabs.create({
+        url: './settings.html'
+    });
+});
+
 $("#id--cancel-btn").click(function() {
   window.close();
 });

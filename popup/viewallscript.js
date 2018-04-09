@@ -43,6 +43,10 @@ function onRemindersFetched(obj) {
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
+    // Returning if the option is of settings (and not reminder)
+    console.log(tKey);
+    if (tKey == null || tKey == undefined) return;
+
     if (showThisReminder(reminderObj.color) !== true) return;
 
     appendReminders(reminderObj);

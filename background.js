@@ -86,6 +86,24 @@ browser.runtime.onStartup.addListener(() => {
 browser.runtime.onInstalled.addListener((details)=> {
   console.log(details.reason);
   greet();
+  manifest = browser.runtime.getManifest();
+  if (manifest.version == '2.5.0') {
+      alert ('herer');
+      var s1 = 'settings__Show-Notifications';
+      var s2 = 'settings__Make-sound-on-Notification';
+      var s3 = 'settings__Snooze-Time';
+      var s4 = 'settings__Show-Ongoing-or-Upcoming';
+      var s5 = 'settings__Show-Color-Reminder';
+      var s6 = 'settings__Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
+
+      browser.storage.local.set({[s1]: 'Yes'});
+      browser.storage.local.set({[s2]: 'Yes'});
+      browser.storage.local.set({[s3]: '1'});
+      browser.storage.local.set({[s4]: 'Ongoing'});
+      browser.storage.local.set({[s5]: 'All'});
+      browser.storage.local.set({[s6]: 'Yes'});
+  }
+
   if (details.reason == "install") createNotification(FIRSTMSG);
   else createNotification(UPDMSG);
 });
@@ -116,7 +134,14 @@ function clearThisAlarm(key) {
 
 function deleteAll () {
   browser.alarms.clearAll();
-  browser.storage.local.clear();
+  //browser.storage.local.clear();
+  let gettingItem = browser.storage.local.get();
+  gettingItem.then(obj => {
+      Object.values(obj).forEach(reminderObj => {
+          if (reminderObj.key == null || reminderObj.key == undefined) return;
+          browser.storage.local.remove(reminderObj);
+      });
+  });
 }
 
 function playSound(soundObj) {
