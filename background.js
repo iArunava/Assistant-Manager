@@ -86,23 +86,22 @@ browser.runtime.onStartup.addListener(() => {
 browser.runtime.onInstalled.addListener((details)=> {
   console.log(details.reason);
   greet();
-  manifest = browser.runtime.getManifest();
-  if (manifest.version == '2.5.0') {
-      alert ('herer');
-      var s1 = 'settings__Show-Notifications';
-      var s2 = 'settings__Make-sound-on-Notification';
-      var s3 = 'settings__Snooze-Time';
-      var s4 = 'settings__Show-Ongoing-or-Upcoming';
-      var s5 = 'settings__Show-Color-Reminder';
-      var s6 = 'settings__Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
 
-      browser.storage.local.set({[s1]: 'Yes'});
-      browser.storage.local.set({[s2]: 'Yes'});
-      browser.storage.local.set({[s3]: '1'});
-      browser.storage.local.set({[s4]: 'Ongoing'});
-      browser.storage.local.set({[s5]: 'All'});
-      browser.storage.local.set({[s6]: 'Yes'});
-  }
+  // Setting the default settings options - Start
+  var s1 = 'settings__Show-Notifications';
+  var s2 = 'settings__Make-sound-on-Notification';
+  var s3 = 'settings__Snooze-Time';
+  var s4 = 'settings__Show-Ongoing-or-Upcoming';
+  var s5 = 'settings__Show-Color-Reminder';
+  var s6 = 'settings__Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
+
+  browser.storage.local.set({[s1]: 'Yes'});
+  browser.storage.local.set({[s2]: 'Yes'});
+  browser.storage.local.set({[s3]: '1'});
+  browser.storage.local.set({[s4]: 'Ongoing'});
+  browser.storage.local.set({[s5]: 'All'});
+  browser.storage.local.set({[s6]: 'Yes'});
+  // Setting the default settings options - End
 
   if (details.reason == "install") createNotification(FIRSTMSG);
   else createNotification(UPDMSG);

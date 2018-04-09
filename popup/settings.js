@@ -11,7 +11,7 @@ var options = [
     ['Yes', 'No'],
     ['Yes', 'No'],
     ['1', '2', '5', '10'],
-    ['Both', 'Ongoing', 'Reminder'],
+    ['Ongoing', 'Upcoming'], //Removed the option 'Both' as it was introducing bugs, look into it later and the option back
     ['All', 'Green', 'Red', 'Blue', 'Orange', 'Lime', 'Purple'],
     ['Yes', 'No']
 ]
@@ -45,6 +45,7 @@ function oneSettingTemplate(header, option, setOption) {
             ).join('')}
         </div>
     </div>
+    <hr class='hr--subtitle' />
     `;
     return template;
 }

@@ -9,6 +9,14 @@ const REPEATWEEK = "Weekly";
 const REPEATMONTH = "Monthly";
 const REPEATYEAR = "Yearly";
 
+const precedor = 'settings__';
+
+const SETSSNOOZE = 'settings__Snooze-Time';
+const SETSONGUPC = 'settings__Show-Ongoing-or-Upcoming';
+const SETSCOLOR = 'settings__Show-Color-Reminder';
+
+var updatingAccordingToSettings = false;
+
 const showOnlyDict = {
          "id--show-only-all-rmd"    : "id--s-all-tick",
          "id--show-only-green-rmd"  : "id--s-green-tick",
@@ -26,27 +34,31 @@ const monthDict = ["January", "February", "March", "April",
 const numSuffix = ["th", "st", "nd", "rd"];
 
 $(document).ready(function () {
-  fetchAllNUpdate();
-  /*setInterval(() => {
-    fetchAllNUpdate();
-  }, inter)*/
+    // Updating According to Options chosed in Settings
+    updateAccSettingsAndUpdate();
 
-  let sltSnzMins = $("select[name='name--select-snooze-time']");
-  let minsAvl = [1, 2, 5, 10];
-  for (const snoozeMin in minsAvl) {
+    fetchAllNUpdate();
+    /*setInterval(() => {
+    fetchAllNUpdate();
+    }, inter)*/
+
+    let sltSnzMins = $("select[name='name--select-snooze-time']");
+    let minsAvl = [1, 2, 5, 10];
+    for (const snoozeMin in minsAvl) {
     let temp = "<option> " + minsAvl[snoozeMin].toString() + " </option>";
     $(temp).appendTo(sltSnzMins);
-  }
+    }
 });
 
 function onRemindersFetched(obj) {
+  clearScreen();
   Object.values(obj).forEach((reminderObj) => {
     var tKey = reminderObj.key;
 
     // Returning if the option is of settings (and not reminder)
-    console.log(tKey);
     if (tKey == null || tKey == undefined) return;
 
+    // Showing reminders According to the color selected
     if (showThisReminder(reminderObj.color) !== true) return;
 
     appendReminders(reminderObj);
@@ -133,7 +145,7 @@ function appendReminders (reminderObj, upcming = false) {
         $("#id--no-ong-rmd").removeClass("class--display-none");
       }
       remInUp = true;
-    } else {
+  } else {
       $("#div--ongoing-reminders").append(createReminderTemplate(reminderObj));
       if ($("#id--no-ong-rmd").hasClass("class--display-none") === false) {
         $("#id--no-ong-rmd").addClass("class--display-none");
@@ -254,12 +266,12 @@ $("#id--snooze-10min").click(()=> {
 
 $("#id--show-only-ongoing-rmd").click(() => {
   toggleOngUpcButton("ongoing");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-upcoming-rmd").click(() => {
   toggleOngUpcButton("upcoming");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-all-rmd").click(() => {
@@ -268,43 +280,43 @@ $("#id--show-only-all-rmd").click(() => {
       $("#"+showOnlyDict[key]).addClass("class--display-none");
     } else $("#"+showOnlyDict[key]).removeClass("class--display-none");
   });
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-green-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-green-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-red-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-red-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-blue-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-blue-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-orange-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-orange-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-lime-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-lime-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#id--show-only-purple-rmd").click(() => {
   switchOffShowAll();
   toggleShowOnlyButton("id--show-only-purple-rmd");
-  fetchAllNUpdate();
+  if (!updatingAccordingToSettings) fetchAllNUpdate();
 });
 
 $("#button--the-refresh-btn").click(()=> {
@@ -349,6 +361,43 @@ function toggleOngUpcButton(ongOrUpcRmd) {
         $("#hr--upc-ong-seperator").addClass("class--display-none");
       }
   }
+}
+
+function updateAccSettingsAndUpdate() {
+    updatingAccordingToSettings = true;
+    let gettingItem = browser.storage.local.get();
+    gettingItem.then(obj => {
+        console.log(obj);
+        for (let value in obj) {
+            if (obj[value].key == undefined) {
+                switch (value) {
+                    case SETSSNOOZE:
+                        $('#id--snooze-' + obj[value].toString() + 'min').trigger('click');
+                        break;
+
+                    case SETSONGUPC:
+                        let ongupc = [];
+                        if (obj[value] == 'All')  {
+                            ongupc.push('ongoing');
+                            ongupc.push('upcoming');
+                        } else ongupc.push(obj[value].toLowerCase());
+
+                        for (let v of ongupc) {
+                            $('#id--show-only-' + v + '-rmd').trigger('click');
+                        }
+                        break;
+
+                    case SETSCOLOR:
+                        $('#id--show-only-' + obj[value].toLowerCase() + '-rmd').trigger('click');
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+    });
+    updatingAccordingToSettings = false;
 }
 
 function toggleShowOnlyButton(showOnlyID) {
@@ -400,10 +449,12 @@ function clearScreen() {
 }
 
 function fetchAllNUpdate() {
+    // TODO: Fetch is called two times, when just Ongoing reminders are to be displayed
+    //look into that
+    //alert ('fet');
     let gettingItem = browser.storage.local.get();
     remInUp = false;
     remInOn = false;
-    clearScreen();
     gettingItem.then(onRemindersFetched, onError);
 }
 
