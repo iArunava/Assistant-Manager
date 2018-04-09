@@ -4,7 +4,8 @@ var headers = [
     'Snooze Time',
     'Show Ongoing or Upcoming',
     'Show Color Reminder',
-    'Greet me with Good Morning or Evening or Afternoon'
+    'Greet me with Good Morning or Evening or Afternoon',
+    'Notification Sound'
 ]
 
 var options = [
@@ -13,7 +14,8 @@ var options = [
     ['1', '2', '5', '10'],
     ['Ongoing', 'Upcoming'], //Removed the option 'Both' as it was introducing bugs, look into it later and the option back
     ['All', 'Green', 'Red', 'Blue', 'Orange', 'Lime', 'Purple'],
-    ['Yes', 'No']
+    ['Yes', 'No'],
+    ['Pling', 'Blop', 'Pop Cork', 'Ting', 'Whip']
 ]
 
 const precedor = 'settings__';
