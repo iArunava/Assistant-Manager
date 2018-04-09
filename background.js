@@ -3,6 +3,11 @@ const UPDMSG = "How are you liking my new update? Be sure to rate and share :)"
 const UPDAVBL = "Hey! I am excited!\nThe HeadQuarters has released a newer version for me!\n Be sure to check it out! :)"
 const RATESHAREUPD = "Rate and Share if you like the new update! :)"
 
+const precedor = 'settings__';
+
+const SETSSOUND = 'Make-sound-on-Notification';
+const SETSNOTI = 'Show-Notifications';
+
 /*setTimeout (() => {
   let requestingCheck = browser.runtime.requestUpdateCheck();
   requestingCheck.then((status, details) => {
@@ -88,12 +93,12 @@ browser.runtime.onInstalled.addListener((details)=> {
   greet();
 
   // Setting the default settings options - Start
-  var s1 = 'settings__Show-Notifications';
-  var s2 = 'settings__Make-sound-on-Notification';
-  var s3 = 'settings__Snooze-Time';
-  var s4 = 'settings__Show-Ongoing-or-Upcoming';
-  var s5 = 'settings__Show-Color-Reminder';
-  var s6 = 'settings__Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
+  var s1 = precedor + 'Show-Notifications';
+  var s2 = precedor + 'Make-sound-on-Notification';
+  var s3 = precedor + 'Snooze-Time';
+  var s4 = precedor + 'Show-Ongoing-or-Upcoming';
+  var s5 = precedor + 'Show-Color-Reminder';
+  var s6 = precedor + 'Greet-me-with-Good-Morning-or-Evening-or-Afternoon';
 
   browser.storage.local.set({[s1]: 'Yes'});
   browser.storage.local.set({[s2]: 'Yes'});
@@ -118,12 +123,21 @@ function greet() {
 }
 
 function createNotification (reminder) {
-    pling();
-    browser.notifications.create({
-      "type": "basic",
-      "title": "Assitant Reminder Says: ",
-      "message": reminder,
-      "iconUrl": "../icons/asst-reminder-32.png"
+    let makeSound = browser.storage.local.get(precedor + SETSSOUND);
+    makeSound.then(obj => {
+        if (obj[precedor + SETSSOUND] == 'Yes') pling();
+    });
+
+    let createNoti = browser.storage.local.get(precedor + SETSNOTI);
+    createNoti.then(obj => {
+        if (obj[precedor + SETSNOTI] == 'Yes') {
+            browser.notifications.create({
+              "type": "basic",
+              "title": "Assitant Reminder Says: ",
+              "message": reminder,
+              "iconUrl": "../icons/asst-reminder-32.png"
+            });
+        }
     });
 }
 
