@@ -126,6 +126,13 @@ function onRemindersFetched(obj) {
         }
       }, onError);
     });
+
+    /* TODO: Handle the edit Button here*/
+    /*$(document).on('click', '#id--edit-rmd-' + tKey, () => {
+
+    });
+    */
+
   });
   if (remInUp === false) {
     $("#id--no-upc-rmd").removeClass("class--display-none");
@@ -174,6 +181,7 @@ function createReminderTemplate(reminderObj) {
           <button id="id--snooze-${tKey}" class="btn btn-outline-primary btn-sm" ${disabledStr}> Snooze </button>
           <button id="id--done-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Done </button>
           <button id="id--delete-rmd-${tKey}" class="btn btn-outline-success btn-sm"> Delete </button>
+          <!--<button id="id--edit-rmd-${tKey}" class="btn btn-outline-primary btn-sm"> Edit </button>-->
         </div>
         <p class="class--reminder-name"> ${reminder} </p>
         <p> Upcoming on: <span class="class--reminder-date-time"> ${ttDate} </span> at: <span class="class--reminder-date-time"> ${reminderObj.hrs}:${reminderObj.min}:${reminderObj.secs} </span></p>

@@ -1,5 +1,6 @@
 const FIRSTMSG = "Hi! I am Assistant Reminder. I'll remind you of all your upcoming tasks. :)";
 const UPDMSG = "How are you liking my new update? Be sure to rate and share :)"
+const URGNTMSG = 'REQUEST A FEATURE BY LEAVING A REVIEW BY 14th APRIL, 2018 AND IT MIGHT BE GRANTED :)';
 const UPDAVBL = "Hey! I am excited!\nThe HeadQuarters has released a newer version for me!\n Be sure to check it out! :)"
 const RATESHAREUPD = "Rate and Share if you like the new update! :)"
 
@@ -113,7 +114,10 @@ browser.runtime.onInstalled.addListener((details)=> {
   // Setting the default settings options - End
 
   if (details.reason == "install") createNotification(FIRSTMSG);
-  else createNotification(UPDMSG);
+  else {
+      createNotification(URGNTMSG);
+      createNotification(UPDMSG);
+  }
 });
 
 function greet() {
